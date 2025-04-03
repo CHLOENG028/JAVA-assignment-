@@ -1,0 +1,4 @@
+105|1|Standard Room|A simple room with essential amenities for solo travelers or couples.|150|Status
+101|2|Deluxe Room|A more spacious and upgraded room with additional amenities.|250|Status
+102|3|Family Room|A larger room with multiple beds, ideal for families or small groups.|350|Status
+
