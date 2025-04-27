@@ -315,7 +315,6 @@ public class StaffManagement {
                 ArrayList<Staff> byId = searchStaffAttributes(staffs, search, staffId);
                 if (!byId.isEmpty()) {
                     showStaff(byId);
-                    askUserContinueView(byId);
                 }
                 break;
             case 2:
@@ -324,7 +323,6 @@ public class StaffManagement {
                 ArrayList<Staff> byName = searchStaffAttributes(staffs, search, staffName);
                 if (!byName.isEmpty()) {
                     showStaff(byName);
-                    askUserContinueView(byName);
                 }
                 break;
             case 3:
@@ -333,7 +331,6 @@ public class StaffManagement {
                 ArrayList<Staff> byPhone = searchStaffAttributes(staffs, search, staffPhoneNo);
                 if (!byPhone.isEmpty()) {
                     showStaff(byPhone);
-                    askUserContinueView(byPhone);
                 }
                 break;
             case 4:
@@ -342,7 +339,6 @@ public class StaffManagement {
                 ArrayList<Staff> byGender = searchStaffAttributes(staffs, search, staffGender);
                 if (!byGender.isEmpty()) {
                     showStaff(byGender);
-                    askUserContinueView(byGender);
                 }
                 break;
             case 5:
@@ -583,25 +579,6 @@ public class StaffManagement {
         }
     }
 
-    public static void askUserContinueView(ArrayList<Staff> staff) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Do you want to continue to view details?\n[1] View\n[2] Exit");
-        System.out.print("Enter your action: ");
-        String input = sc.nextLine().trim();
-        while (true) {
-            if (Integer.parseInt(input) < 1 || Integer.parseInt(input) > 2) {
-                System.out.println("Incorrect input. Please try again.");
-            } else {
-                if (input.equalsIgnoreCase("1")) {
-                    chooseStaff(staff);
-                    break;
-                } else {
-                    return;
-                }
-            }
-        }
-    }
-
     public static ArrayList<Staff> searchStaffAttributes(ArrayList<Staff> staffs, int option, String value) {
         staffs = readStaffFile();
         ArrayList<Staff> matchedStaff = new ArrayList<>();
@@ -654,6 +631,10 @@ public class StaffManagement {
             Staff currentStaff = staffs.get(i);
             System.out.println((i) + "." + currentStaff.getName());
         }
+
+        for (Staff staff:staffs){
+            displayStaffDetails(staff);
+        }
     }
 
     public static ArrayList<Staff> readStaffFile() {
@@ -689,9 +670,7 @@ public class StaffManagement {
     
                     Staff readStaff = new Staff(id, name, phoneNo, gender, ic, salary);
                     staffs.add(readStaff);
-                } else {
-                    System.err.println("Skipping invalid staff data line: " + line);
-                }
+                } 
             }
         } catch (FileNotFoundException e) {
             System.err.println("File 'staff.txt' not found: " + e.getMessage());
