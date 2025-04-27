@@ -1,5 +1,7 @@
+
 import java.io.*;
 import java.util.*;
+
 
 public class StaffManagement {
 
@@ -80,10 +82,10 @@ public class StaffManagement {
                         addNewStaff(staffs);
                         break;
                     case 3:
-                        //editStaff();
+                        editStaff(staffs);
                         break;
                     case 4:
-                        //deleteStaff();
+                        deleteStaff(staffs);
                         break;
                 }
                 System.out.println("\nAction completed. Press [ENTER] to return to staff menu...");
@@ -349,22 +351,224 @@ public class StaffManagement {
                     found = true;
                     System.out.println("Staff found: ");
                     displayStaffDetails(staff);
-
+                    editStaffDetails(staff,input);
+                    break;
 
                 }
                 else if (staff.getName().equalsIgnoreCase(input)){
                     found = true;
                     System.out.println("Staff found: ");
                     displayStaffDetails(staff);
+                    input = staff.getId();
+                    editStaffDetails(staff,input);
+                    break;
                 }
             }
+            break;
+        }
+        System.out.println("Press [ENTER] to continue...");
+        sc.nextLine();
+        mainPageStaff();
+    }
+
+    public static void editStaffDetails(Staff staff, String input){
+        Scanner sc = new Scanner(System.in);
+        boolean continueEditing = true;
+        while(continueEditing) {
+
+            System.out.println("What do you want to edit? (Enter numbers separated by commas, e.g., 1,5)");
+            System.out.println("[1] Name");
+            System.out.println("[2] Phone Number");
+            System.out.println("[3] Gender");
+            System.out.println("[4] IC Number");
+            System.out.println("[5] Salary");
+            System.out.println("[6] Finish Editing This Staff");
+            System.out.print("Enter your choice(s): ");
+            String editChoicesInput = sc.nextLine().trim();
+
+            if (editChoicesInput.isEmpty()) {
+                System.out.println("No choice entered. Please select fields to edit or choose 6 to finish.");
+                continue;
+            }
+
+             if (editChoicesInput.contains("6")) {
+                 System.out.println("Finished editing Staff ID: " + staff.getId());
+                 continueEditing = false;
+                 break;
+             }
+
+
+            String[] options = editChoicesInput.split(",");
+            boolean changesMadeThisRound = false;
+
+            for (String option : options) {
+                String trimmedOption = option.trim();
+                switch (trimmedOption) {
+                    case "1":
+                        System.out.print("Enter the new Name: ");
+                        String newName = sc.nextLine().trim();
+                        if (!newName.isEmpty()) {
+                            staff.setName(newName);
+                            updateStaffFile(staff.getId(), 1, newName);
+                            System.out.println("-> Name updated successfully!");
+                            changesMadeThisRound = true;
+                        } else {
+                            System.out.println("Name cannot be empty. Update skipped.");
+                        }
+                        break;
+
+                    case "2":
+                        System.out.print("Enter the new Phone Number: ");
+                        String newPhone = sc.nextLine().trim();
+                        if (!newPhone.isEmpty()) {
+                            staff.setPhoneNo(newPhone);
+                            updateStaffFile(staff.getId(), 2, newPhone);
+                            System.out.println("-> Phone Number updated successfully!");
+                            changesMadeThisRound = true;
+                        } else {
+                            System.out.println("Phone Number cannot be empty. Update skipped.");
+                        }
+                        break;
+
+                    case "3":
+                        char newGender = ' ';
+                        while (newGender == ' ') {
+                            System.out.print("Enter the new Gender (M/F): ");
+                            String genderInput = sc.nextLine().trim().toUpperCase();
+                            if (genderInput.length() == 1 && (genderInput.charAt(0) == 'M' || genderInput.charAt(0) == 'F')) {
+                                newGender = genderInput.charAt(0);
+                                staff.setGender(newGender);
+                                updateStaffFile(staff.getId(), 3, String.valueOf(newGender));
+                                System.out.println("-> Gender updated successfully!");
+                                changesMadeThisRound = true;
+                            } else {
+                                System.out.println("Invalid input. Please enter 'M' or 'F'.");
+                            }
+                        }
+                        break;
+
+                    case "4":
+                        System.out.print("Enter the new IC Number: ");
+                        String newIc = sc.nextLine().trim();
+                         if (!newIc.isEmpty()) {
+                            staff.setIcNo(newIc);
+                            updateStaffFile(staff.getId(), 4, newIc);
+                            System.out.println("-> IC Number updated successfully!");
+                            changesMadeThisRound = true;
+                        } else {
+                            System.out.println("IC Number cannot be empty. Update skipped.");
+                        }
+                        break;
+
+                    case "5":
+                        double newSalary = -1.0;
+                        while (newSalary < 0) {
+                            System.out.print("Enter the new Salary (e.g., 2500.50): RM ");
+                            try {
+                                newSalary = sc.nextDouble();
+                                sc.nextLine();
+                                if (newSalary < 0) {
+                                    System.out.println("Salary cannot be negative.");
+                                    newSalary = -1.0;
+                                } else {
+                                    staff.setSalary(newSalary);
+                                    updateStaffFile(staff.getId(), 5, String.valueOf(newSalary));
+                                    System.out.println("-> Salary updated successfully!");
+                                    changesMadeThisRound = true;
+                                }
+                            } catch (InputMismatchException e) {
+                                errorMessageNumber();
+                                sc.nextLine();
+                                newSalary = -1.0;
+                            }
+                        }
+                        break;
+
+                     case "6":
+                         continueEditing = false;
+                         break;
+
+                    default:
+                        System.out.println("Invalid choice '" + trimmedOption + "'. Skipping.");
+                        break;
+                }
+
+                if (!continueEditing) break;
+
+            }
+
+            if (changesMadeThisRound) {
+                 System.out.println("\nCurrent details for Staff ID: " + staff.getId());
+                 displayStaffDetails(staff);
+             }
+
+             if (!continueEditing) {
+                 break;
+             }
+
+             System.out.print("\nEdit more details for this staff member? (yes/no): ");
+             String more = sc.nextLine().trim();
+             if (!more.equalsIgnoreCase("yes")) {
+                 continueEditing = false;
+                 System.out.println("Finished editing Staff ID: " + staff.getId());
+             }
+
         }
     }
 
-    public static void editStaffDetails(ArrayList<Staff> staffs){
+    public static void deleteStaff(ArrayList<Staff> currentStaff) {
+        String filename = "staff.txt";
 
-    }
+        if (currentStaff == null) {
+            System.err.println("Error: Cannot delete from a null list.");
+            return;
+        }
 
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Please enter the staff ID that you want to delete: ");
+        String idToDelete = sc.nextLine().trim();
+
+        boolean staffExists = false;
+        for (Staff staff : currentStaff) {
+            if (staff != null && staff.getId() != null && staff.getId().equalsIgnoreCase(idToDelete)) {
+                staffExists = true;
+                displayStaffDetails(staff);
+                break;
+            }
+        }
+
+        if (!staffExists) {
+            System.out.println("\nStaff with ID '" + idToDelete + "' not found in the list. No deletion performed.");
+            return;
+        }
+
+        while (true) {
+            System.out.print("Staff found. Confirm to delete staff with ID '" + idToDelete + "'? (yes/no): ");
+            String deleteConfirm = sc.nextLine().trim();
+
+            if (deleteConfirm.equalsIgnoreCase("yes")) {
+                boolean removed = currentStaff.removeIf(staff ->
+                    staff != null && staff.getId() != null && staff.getId().equalsIgnoreCase(idToDelete)
+                );
+
+                if (removed) {
+                    System.out.println("\nStaff with ID '" + idToDelete + "' has been removed from the list.");
+                    writeStaffFile(currentStaff, filename);
+                } else {
+                    System.out.println("\nError: Staff with ID '" + idToDelete + "' was found initially but could not be removed now.");
+                }
+                break;
+
+            } else if (deleteConfirm.equalsIgnoreCase("no")) {
+                System.out.println("\nDeletion cancelled for Staff ID '" + idToDelete + "'.");
+                break;
+
+            } else {
+                errorMessageWord();
+            }
+        }
+    }  
+            
     public static void askUserContinueView(ArrayList<Staff> staff) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Do you want to continue to view details?\n[1] View\n[2] Exit");
@@ -518,5 +722,72 @@ public class StaffManagement {
     public static void errorMessageBlank() {
         System.out.print("===================================\n");
         System.out.println("Error. Input cannot be empty. Please try again");
+    }
+
+    public static void updateStaffFile(String staffId, int update, String newValue){
+        File staff = new File("staff.txt");
+        try {
+            Scanner updateStaff = new Scanner(staff);
+            List<String> updatedLines = new ArrayList<>();
+
+            while (updateStaff.hasNextLine()) {
+                String line = updateStaff.nextLine();
+                String[] parts = line.split("\\|");
+
+                if (parts.length > 0 && staffId.equals(parts[0].trim())) {
+                    switch (update) {
+                        case 1: //Name
+                            parts[1] = newValue;
+                            break;
+                        case 2: //Phone Number
+                            parts[2] = newValue;
+                            break;
+                        case 3: //Gender
+                            parts[3] = newValue;
+                            break;
+                        case 4: //IC Number
+                            parts[4] = newValue;
+                            break;
+                        case 5: //Salary
+                            parts[5] = newValue;
+                            break;
+                    }
+                }
+                updatedLines.add(String.join("|", parts)); //become back the format in file and add into updatedLines array
+            }
+
+            try (FileWriter writer = new FileWriter("staff.txt", false)) { // false to overwrite file
+                for (String updatedLine : updatedLines) {
+                    writer.write(updatedLine + System.lineSeparator());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+        }
+
+    }
+    public static void writeStaffFile(ArrayList<Staff> staffs, String filename) {
+        File staffFile = new File(filename);
+
+        try (FileWriter fw = new FileWriter(staffFile, false)) {
+            for (Staff staff : staffs) {
+
+                String gender = String.valueOf(staff.getGender());
+                String salary = String.valueOf(staff.getSalary());
+
+                String line = String.join("|",
+                        staff.getId(),
+                        staff.getName(),
+                        staff.getPhoneNo(),
+                        gender,
+                        staff.getIcNo(),
+                        salary
+                );
+                fw.write(line + System.lineSeparator());
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error writing to file '" + filename + "': " + e.getMessage());
+        }
     }
 }
