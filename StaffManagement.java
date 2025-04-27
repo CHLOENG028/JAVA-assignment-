@@ -766,7 +766,7 @@ public class StaffManagement {
     public static void writeStaffFile(ArrayList<Staff> staffs, String filename) {
         File staffFile = new File(filename);
 
-        try (FileWriter fw = new FileWriter(staffFile, false)) {
+        try (FileWriter fileWriter = new FileWriter(staffFile, false)) {
             for (Staff staff : staffs) {
 
                 String gender = String.valueOf(staff.getGender());
@@ -780,7 +780,7 @@ public class StaffManagement {
                         staff.getIcNo(),
                         salary
                 );
-                fw.write(line + System.lineSeparator());
+                fileWriter.write(line + System.lineSeparator());
             }
 
         } catch (IOException e) {
