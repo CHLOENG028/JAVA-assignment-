@@ -18,11 +18,18 @@ public class ManageRoom {
         rooms = readRoomFile();
         Scanner sc = new Scanner(System.in);
         int action = 0;
-        System.out.println("\nManage Room System");
-        System.out.println("==================");
+        System.out.println("\n\t\t********************************************");
+        System.out.println("\t\t\tHOTEL ROOM MANAGEMENT SYSTEM");
+        System.out.println("\t\t********************************************");
+
+        // System.out.println("\n\t\t============================================");
+        // System.out.println("\t\t|\tHOTEL ROOM MANAGEMENT SYSTEM\t   |");
+        // System.out.println("\t\t============================================");
+
 
         while (action != 5) {
             while (true) {
+                System.out.println("\nPlease select an option: ");
                 System.out.println("\n[1] Add New Room\n[2] Edit Room\n[3] Delete Room\n[4] Search Room\n[5] Exit");
                 System.out.print("Please choose your action (1-5): ");
 
@@ -31,14 +38,12 @@ public class ManageRoom {
                     sc.nextLine();
 
                     if (action < 1 || action > 5) {
-                        System.out.println("==================");
-                        System.out.print("Please input a correct number.");
+                        errorMessageNumber();
                     } else {
                         break;
                     }
                 } else {
-                    System.out.println("==================");
-                    System.out.print("Please input a correct number.");
+                    errorMessageNumber();
                     sc.next();
                 }
             }
@@ -54,7 +59,7 @@ public class ManageRoom {
                             action = 0;
                             break;
                         } else {
-                            System.out.println("Please input the correct word.");
+                            errorMessageWord();
                         }
                     }
                     break;
@@ -69,7 +74,7 @@ public class ManageRoom {
                             action = 0;
                             break;
                         } else {
-                            System.out.println("Please input the correct word");
+                            errorMessageWord();
                         }
                     }
                     break;
@@ -87,7 +92,7 @@ public class ManageRoom {
                             action = 0;
                             break;
                         } else {
-                            System.out.println("Please input the correct word");
+                            errorMessageWord();
                         }
                     }
                     break;
@@ -102,7 +107,7 @@ public class ManageRoom {
                             action = 0;
                             break;
                         } else {
-                            System.out.println("Please input the correct word");
+                            errorMessageWord();;
                         }
                     }
                     break;
@@ -135,8 +140,7 @@ public class ManageRoom {
                 sc.nextLine();
 
                 if (search < 1 || search > 8) {
-                    System.out.print("===================================\n");
-                    System.out.print("Please input a correct number.\n");
+                    errorMessageNumber();
                 } else {
                     String stringChosen = choicesString.getOrDefault(search, "Invalid input");
                     System.out.print("Are you confirm to choose '" + stringChosen + "' as your search? (yes/no) :");
@@ -144,14 +148,12 @@ public class ManageRoom {
                     if (confirmation.equalsIgnoreCase("yes")) {
                         break;
                     } else {
-                        System.out.print("===================================\n");
-                        System.out.print("Please input a correct number.(1-8)\n");
+                        errorMessageNumber();
                     }
                 }
             } else {
-                System.out.print("===================================\n");
-                System.out.print("Please input a correct number.\n");
-                sc.next(); //clear the scanner input to prevent false looping, cuz it detect it is not number and will loop
+                errorMessageNumber();
+                sc.next(); 
             }
         }
         switch (search) {
@@ -181,14 +183,13 @@ public class ManageRoom {
                             typeRoom = sc.nextInt();
                             sc.nextLine();
                             if (typeRoom < 1 || typeRoom > 5) {
-                                System.out.print("===================================\n");
-                                System.out.print("Please input a correct number.\n");
+                                errorMessageNumber();
+
                             } else {
                                 break;
                             }
                         } else {
-                            System.out.print("===================================\n");
-                            System.out.print("Please input a correct number.\n");
+                            errorMessageNumber();
                             sc.next();
                         }
                     }
@@ -260,14 +261,12 @@ public class ManageRoom {
                 choice = sc.nextInt();
                 sc.nextLine();
                 if (choice < 1 || choice > 3) {
-                    System.out.print("===================================\n");
-                    System.out.print("Please input a correct number.\n");
+                    errorMessageNumber();
                 } else {
                     break;
                 }
             } else {
-                System.out.print("===================================\n");
-                System.out.print("Please input a correct number.\n");
+                errorMessageNumber();
                 sc.next();
             }
         }
@@ -401,7 +400,7 @@ public class ManageRoom {
                 System.out.print("Enter floor(Room number will be automated generated): ");
                 floor = sc.nextLine();
                 if (floor.isEmpty()) {
-                    System.out.println("Floor cannot be empty. Please try again");
+                    System.out.println("Floor cannot be empty. Please try again.");
                 } else {
                     if (floor.length() == 1) {
                         char inputFloor = floor.charAt(0);
@@ -438,14 +437,12 @@ public class ManageRoom {
                         typeRoom = sc.nextInt();
                         sc.nextLine();
                         if (typeRoom < 1 || typeRoom > 5) {
-                            System.out.print("===================================\n");
-                            System.out.print("Please input a correct number.\n");
+                            errorMessageNumber();
                         } else {
                             break;
                         }
                     } else {
-                        System.out.print("===================================\n");
-                        System.out.print("Please input a correct number.\n");
+                        errorMessageNumber();
                         sc.next();
                     }
                 }
@@ -539,9 +536,9 @@ public class ManageRoom {
             }
             newRoomId = floor + padString;
 
-            System.out.println("==============================");
+            System.out.println("=================================");
             System.out.println("Please confirm the details below:");
-            System.out.println("==============================");
+            System.out.println("=================================");
             System.out.println("Room ID: " + newRoomId);
             System.out.println("Floor " + floor);
             System.out.println("Capacity: " + capacity);
@@ -564,7 +561,7 @@ public class ManageRoom {
                         break;
                     }
                 } else {
-                    System.out.println("Please enter the correct word");
+                    errorMessageWord();
                 }
             }
         } while (!detailsConfirm);
@@ -631,14 +628,12 @@ public class ManageRoom {
                                         newType = sc.nextInt();
                                         sc.nextLine();
                                         if (newType < 1 || newType > 5) {
-                                            System.out.print("===================================\n");
-                                            System.out.print("Please input a correct number.\n");
+                                            errorMessageNumber();
                                         } else {
                                             break;
                                         }
                                     } else {
-                                        System.out.print("===================================\n");
-                                        System.out.print("Please input a correct number.\n");
+                                        errorMessageNumber();
                                         sc.next();
                                     }
                                 }
@@ -775,8 +770,7 @@ public class ManageRoom {
                 System.out.println("Deletion cancelled for Room ID '" + idToDelete + "'.");
                 break;
             } else {
-                System.out.println("Please input the correct word");
-                continue;
+                errorMessageWord();
             }
         }
 
@@ -813,8 +807,7 @@ public class ManageRoom {
                 } else if (confirm.equalsIgnoreCase("no")) {
                     continue;
                 } else {
-                    System.out.println("Please input the correct word");
-                }
+                    errorMessageWord();                }
             } else {
                 System.out.println("Unrecognized input. Please enter 'Available' or 'Occupied'");
             }
@@ -944,5 +937,13 @@ public class ManageRoom {
         }
 
     }
-}
+    public static void errorMessageNumber(){
+        System.out.print("===================================\n");        
+        System.out.println("Error. Invalid input. Please input the correct number.");
+    }
 
+    public static void errorMessageWord(){
+        System.out.print("===================================\n");        
+        System.out.println("Error. Invalid input. Please input the correct word.");
+    }
+}
