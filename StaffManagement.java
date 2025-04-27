@@ -261,6 +261,7 @@ public class StaffManagement {
             choicesString.put(2, "Staff Name");
             choicesString.put(3, "Phone Number");
             choicesString.put(4, "Gender");
+            choicesString.put(5,"Exit");
 
             while (true) {
                 System.out.println("What kind of information you want to type in order to find the staff(s) info?\n[1] Staff ID\n[2] Staff Name\n[3] Phone Number\n[4] Gender\n[5] Exit");
@@ -595,7 +596,7 @@ public class StaffManagement {
                     chooseStaff(staff);
                     break;
                 } else {
-                    break;
+                    return;
                 }
             }
         }
