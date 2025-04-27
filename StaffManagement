@@ -1,7 +1,5 @@
-
 import java.io.*;
 import java.util.*;
-
 
 public class StaffManagement {
 
@@ -10,7 +8,7 @@ public class StaffManagement {
     public static void mainPageStaff() {
         staffs = readStaffFile();
         Scanner sc = new Scanner(System.in);
-        System.out.println("Manage Account System");
+        System.out.println("Manage Staff System");
         System.out.println("=====================");
 
         while (true) {
@@ -94,7 +92,7 @@ public class StaffManagement {
         }
     }
 
-    public static void addNewStaff(ArrayList<Staff> staffs) {
+    public static void addNewStaff(ArrayList<Staff> currentStaffList) {
         Scanner sc = new Scanner(System.in);
         boolean detailsConfirm = false;
 
@@ -177,23 +175,37 @@ public class StaffManagement {
                     break;
                 }
             }
-
+            Set<Integer> existingIds = new HashSet<>();
             int highestStaffNum = 0;
             String prefix = "S";
-            for (Staff staff : staffs) {
-                String currentId = staff.getId();
-                String numberId = currentId.substring(prefix.length());
-                try {
-                    int findId = Integer.parseInt(numberId);
-                    if (findId > highestStaffNum) {
-                        highestStaffNum = findId;
+            
+            for (Staff staff : currentStaffList){
+                if (staff.getId() != null && staff.getId().startsWith(prefix)){
+                    try {
+                        String numberPart = staff.getId().substring(prefix.length());
+                        int currentIdNum = Integer.parseInt(numberPart);
+                        existingIds.add(currentIdNum);
+                        if ( currentIdNum > highestStaffNum){
+                            highestStaffNum =  currentIdNum;
+                        }
+                    } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                        System.err.println("Warning: Skipping staff with unexpected IF format: " + staff.getId());
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Staff ID format error");
                 }
             }
-            int nextStaffid = highestStaffNum + 1;
-            id = prefix + String.format("%03d", nextStaffid);
+
+            int nextStaffId = -1;
+            for (int i = 1; i <= highestStaffNum; i++){
+                if (!existingIds.contains(i)){
+                    nextStaffId = i;
+                    break;
+                }
+            }
+
+            if (nextStaffId == -1){
+                nextStaffId = highestStaffNum + 1;
+            }
+            id = prefix + String.format("%03d", nextStaffId);
 
             System.out.println("=================================");
             System.out.println("Please confirm the details below:");
@@ -239,6 +251,7 @@ public class StaffManagement {
         sc.nextLine();
         mainPageStaff();
     }
+
     public static void showStaff() {
         Scanner sc = new Scanner(System.in);
         int search = 0;
@@ -549,7 +562,7 @@ public class StaffManagement {
             if (deleteConfirm.equalsIgnoreCase("yes")) {
                 boolean removed = currentStaff.removeIf(staff ->
                     staff != null && staff.getId() != null && staff.getId().equalsIgnoreCase(idToDelete)
-                );
+                );//check one by one if it is null
 
                 if (removed) {
                     System.out.println("\nStaff with ID '" + idToDelete + "' has been removed from the list.");
@@ -561,7 +574,7 @@ public class StaffManagement {
 
             } else if (deleteConfirm.equalsIgnoreCase("no")) {
                 System.out.println("\nDeletion cancelled for Staff ID '" + idToDelete + "'.");
-                break;
+                break;  
 
             } else {
                 errorMessageWord();
@@ -766,6 +779,7 @@ public class StaffManagement {
         }
 
     }
+    
     public static void writeStaffFile(ArrayList<Staff> staffs, String filename) {
         File staffFile = new File(filename);
 
