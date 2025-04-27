@@ -823,119 +823,148 @@ public class ManageRoom {
     }
 
     public static ArrayList<Room> readRoomFile() {
-
-        File room = new File("room.txt");
-
-        try {
-            if (!room.exists()){
-                System.out.println("File not found, creating a new empty file.");
-            }else{
-                try {
-                    if (!room.createNewFile()) {
-                        if (room.createNewFile()) {
-                            System.out.println("File created successfully. Please add some rooms details first via 'Add Room'");
-                        } else {
-                            System.out.println("File already existed.");
-                        }
-                    }
-                } catch (IOException ioEx) {
-                    System.out.println("Error: Couldnt crete file 'room.txt'");
-                    return rooms;
+        File roomFile = new File("room.txt");
+        if (!roomFile.exists()) {
+            try {
+                if (roomFile.createNewFile()) {
+                    System.out.println("File created successfully. Ready to store room data.");
+                } else {
+                    System.out.println("Failed to create file.");
+                    return new ArrayList<>(); // Return an empty list
                 }
+            } catch (IOException ioEx) {
+                System.err.println("Error: Couldn't create file 'room.txt': " + ioEx.getMessage());
+                return new ArrayList<>();
             }
-            Scanner readRoom = new Scanner(room);
-
+        }
+    
+        ArrayList<Room> rooms = new ArrayList<>(); // Initialize rooms here
+        try (Scanner readRoom = new Scanner(roomFile)) {
             while (readRoom.hasNextLine()) {
                 String line = readRoom.nextLine();
                 String[] parts = line.split("\\|");
-
                 if (parts.length == 6) {
-                    String id = parts[0].trim(); //clear spaces
+                    String id = parts[0].trim();
                     String floor = id.substring(0, 1);
-                    int capacity = Integer.parseInt(parts[1].trim());
-                    String type = parts[2].trim();
-                    String description = parts[3].trim();
-                    double price = Double.parseDouble(parts[4].trim());
-                    String status = parts[5].trim();
-
-                    Room r = new Room(id, floor, capacity, type, description, price, status);
-                    rooms.add(r);
+                    try {
+                        int capacity = Integer.parseInt(parts[1].trim());
+                        String type = parts[2].trim();
+                        String description = parts[3].trim();
+                        double price = Double.parseDouble(parts[4].trim());
+                        String status = parts[5].trim();
+                        Room r = new Room(id, floor, capacity, type, description, price, status);
+                        rooms.add(r);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Error parsing data in file: " + e.getMessage() + " for line: " + line);
+                        // Consider logging the error or skipping the invalid line
+                    }
+                } else {
+                    System.err.println("Skipping invalid line: " + line); // Handle invalid lines
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File cannot be found");
+            System.err.println("File 'room.txt' not found: " + e.getMessage());
+            return new ArrayList<>();
         }
         return rooms;
     }
-
+    
     public static void writeRoomFile(ArrayList<Room> roomList, String filename) {
         File roomFile = new File(filename);
-
+        if (!roomFile.exists()) {
+            try {
+                if (roomFile.createNewFile()) {
+                    System.out.println("File created successfully.  Ready to store room data.");
+                } else {
+                    System.out.println("Failed to create file.");
+                    return; 
+                }
+            } catch (IOException ioEx) {
+                System.err.println("Error: Couldn't create file '" + filename + "': " + ioEx.getMessage());
+                return; 
+            }
+        }
+    
         try (FileWriter fileWriter = new FileWriter(roomFile, false)) {
             for (Room room : roomList) {
-
                 String capacity = String.valueOf(room.getCapacity());
                 String price = String.valueOf(room.getPrice());
-
                 String line = String.join("|",
                         room.getId(),
                         capacity,
                         room.getType(),
                         room.getDescription(),
                         price,
-                        room.getStatus()
-                );
+                        room.getStatus());
                 fileWriter.write(line + System.lineSeparator());
             }
-
         } catch (IOException e) {
             System.err.println("Error writing to file '" + filename + "': " + e.getMessage());
         }
     }
 
     public static void updateRoomFile(String roomId, int update, String newValue) {
-        File room = new File("room.txt");
-        try {
-            Scanner updateRoom = new Scanner(room);
-            List<String> updatedLines = new ArrayList<>();
-
+        File roomFile = new File("room.txt");
+        if (!roomFile.exists()) {
+            try{
+                if (roomFile.createNewFile()){
+                    System.out.println("File not found, creating a new empty file.");
+                    return;
+                } else{
+                     System.out.println("Failed to create a new file.");
+                     return;
+                }
+    
+            } catch(IOException e){
+                System.out.println("Error creating file");
+                return;
+    
+            }
+        }
+    
+        List<String> updatedLines = new ArrayList<>();
+        try (Scanner updateRoom = new Scanner(roomFile)) {
             while (updateRoom.hasNextLine()) {
                 String line = updateRoom.nextLine();
                 String[] parts = line.split("\\|");
-
                 if (parts.length > 0 && roomId.equals(parts[0].trim())) {
                     switch (update) {
-                        case 1: //capacity
+                        case 1: // capacity
                             parts[1] = newValue;
                             break;
-                        case 2: //type
+                        case 2: // type
                             parts[2] = newValue;
                             break;
-                        case 3: //Desc
+                        case 3: // Desc
                             parts[3] = newValue;
                             break;
-                        case 4: //Price
+                        case 4: // Price
                             parts[4] = newValue;
                             break;
-                        case 5: //Status
+                        case 5: // Status
                             parts[5] = newValue;
+                            break;
+                        default:
+                            // Handle unexpected 'update' values
+                            System.err.println("Warning: Invalid update code: " + update + " for room ID: " + roomId);
                             break;
                     }
                 }
-                updatedLines.add(String.join("|", parts)); //become back the format in file and add into updatedLines array
-            }
-
-            try (FileWriter writer = new FileWriter("room.txt", false)) { // false to overwrite file
-                for (String updatedLine : updatedLines) {
-                    writer.write(updatedLine + System.lineSeparator());
-                }
+                updatedLines.add(String.join("|", parts));
             }
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.err.println("Error reading file: " + e.getMessage());
+            return; 
         }
-
+    
+        try (FileWriter writer = new FileWriter("room.txt", false)) {
+            for (String updatedLine : updatedLines) {
+                writer.write(updatedLine + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
     }
-
     public static void errorMessageNumber() {
         System.out.print("===================================\n");
         System.out.println("Error. Invalid input. Please input the correct number.");
