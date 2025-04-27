@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.*;
 
@@ -25,8 +26,6 @@ public class ManageRoom {
         // System.out.println("\n\t\t============================================");
         // System.out.println("\t\t|\tHOTEL ROOM MANAGEMENT SYSTEM\t   |");
         // System.out.println("\t\t============================================");
-
-
         while (action != 5) {
             while (true) {
                 System.out.println("\nPlease select an option: ");
@@ -153,7 +152,7 @@ public class ManageRoom {
                 }
             } else {
                 errorMessageNumber();
-                sc.next(); 
+                sc.next();
             }
         }
         switch (search) {
@@ -174,42 +173,42 @@ public class ManageRoom {
                 }
                 break;
             case 3:
-                    System.out.print("Enter room type: ");
-                    int typeRoom = 0;
-                    while (true) {
-                        System.out.println("\n[1] Standard\n[2] Deluxe\n[3] Family\n[4] Suite\n[5] Executive");
-                        System.out.print("Enter the room type (1-5): ");
-                        if (sc.hasNextInt()) {
-                            typeRoom = sc.nextInt();
-                            sc.nextLine();
-                            if (typeRoom < 1 || typeRoom > 5) {
-                                errorMessageNumber();
-
-                            } else {
-                                break;
-                            }
-                        } else {
+                System.out.print("Enter room type: ");
+                int typeRoom = 0;
+                while (true) {
+                    System.out.println("\n[1] Standard\n[2] Deluxe\n[3] Family\n[4] Suite\n[5] Executive");
+                    System.out.print("Enter the room type (1-5): ");
+                    if (sc.hasNextInt()) {
+                        typeRoom = sc.nextInt();
+                        sc.nextLine();
+                        if (typeRoom < 1 || typeRoom > 5) {
                             errorMessageNumber();
-                            sc.next();
+
+                        } else {
+                            break;
                         }
+                    } else {
+                        errorMessageNumber();
+                        sc.next();
                     }
-                    switch (typeRoom) {
-                        case 1:
-                            type = "Standard Room";
-                            break;
-                        case 2:
-                            type = "Deluxe Room";
-                            break;
-                        case 3:
-                            type = "Family Room";
-                            break;
-                        case 4:
-                            type = "Suite";
-                            break;
-                        case 5:
-                            type = "Executive Room";
-                            break;
-                    }
+                }
+                switch (typeRoom) {
+                    case 1:
+                        type = "Standard Room";
+                        break;
+                    case 2:
+                        type = "Deluxe Room";
+                        break;
+                    case 3:
+                        type = "Family Room";
+                        break;
+                    case 4:
+                        type = "Suite";
+                        break;
+                    case 5:
+                        type = "Executive Room";
+                        break;
+                }
                 ArrayList<Room> byType = SearchRoomByAttribute(rooms, search, type);
                 if (!byType.isEmpty()) {
                     filterRoomAttributes(byType, sc);
@@ -742,7 +741,6 @@ public class ManageRoom {
 
     public static void deleteRoom(ArrayList<Room> currentRooms) {
         String filename = "room.txt";
-
         if (currentRooms == null) {
             System.err.println("Error: Cannot delete from a null list.");
             return;
@@ -807,7 +805,8 @@ public class ManageRoom {
                 } else if (confirm.equalsIgnoreCase("no")) {
                     continue;
                 } else {
-                    errorMessageWord();                }
+                    errorMessageWord();
+                }
             } else {
                 System.out.println("Unrecognized input. Please enter 'Available' or 'Occupied'");
             }
@@ -828,10 +827,9 @@ public class ManageRoom {
         File room = new File("room.txt");
 
         try {
-            if (!room.exists()) {
-            }
-            {
+            if (!room.exists()){
                 System.out.println("File not found, creating a new empty file.");
+            }else{
                 try {
                     if (!room.createNewFile()) {
                         if (room.createNewFile()) {
@@ -873,7 +871,7 @@ public class ManageRoom {
     public static void writeRoomFile(ArrayList<Room> roomList, String filename) {
         File roomFile = new File(filename);
 
-        try (FileWriter fw = new FileWriter(roomFile, false)) {
+        try (FileWriter fileWriter = new FileWriter(roomFile, false)) {
             for (Room room : roomList) {
 
                 String capacity = String.valueOf(room.getCapacity());
@@ -887,7 +885,7 @@ public class ManageRoom {
                         price,
                         room.getStatus()
                 );
-                fw.write(line + System.lineSeparator());
+                fileWriter.write(line + System.lineSeparator());
             }
 
         } catch (IOException e) {
@@ -937,13 +935,14 @@ public class ManageRoom {
         }
 
     }
-    public static void errorMessageNumber(){
-        System.out.print("===================================\n");        
+
+    public static void errorMessageNumber() {
+        System.out.print("===================================\n");
         System.out.println("Error. Invalid input. Please input the correct number.");
     }
 
-    public static void errorMessageWord(){
-        System.out.print("===================================\n");        
+    public static void errorMessageWord() {
+        System.out.print("===================================\n");
         System.out.println("Error. Invalid input. Please input the correct word.");
     }
 }
