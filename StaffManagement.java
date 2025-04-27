@@ -700,24 +700,6 @@ public class StaffManagement {
         } while (Integer.parseInt(choose) < 1 || Integer.parseInt(choose) > staff.size());
     }
 
-    public static void askForAction() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("What action you want to do next?\n[1] Edit Staff\n[2] Delete Staff");
-        String input = sc.nextLine().trim();
-        while (true) {
-            if (Integer.parseInt(input) < 1 || Integer.parseInt(input) > 2) {
-                errorMessage();
-            } else {
-                if (input == "1") {
-                    //editStaff();
-                } else {
-                    //deleteStaff();
-                }
-            }
-        }
-
-    }
-
     public static void errorMessage() {
         System.out.print("===================================\n");
         System.out.println("Error. Invalid input. Please try again.");
