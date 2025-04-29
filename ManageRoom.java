@@ -22,12 +22,16 @@ public class ManageRoom {
         while (action != 5) {
             while (true) {
                 clear();
-                System.out.println("\n\t\t============================================");
-                System.out.println("\t\t|\tHOTEL ROOM MANAGEMENT SYSTEM\t   |");
-                System.out.println("\t\t============================================");
-                System.out.println("\n\t\tPlease select an option: ");
-                System.out.println("\n\t\t[1] Add New Room\n\t\t[2] Edit Room\n\t\t[3] Delete Room\n\t\t[4] Search Room\n\t\t[5] Exit");
-                System.out.print("\t\tPlease choose your action (1-5): ");
+                System.out.println("\n============================================================");
+                System.out.println("||           HOTEL ROOM MANAGEMENT SYSTEM                ||");
+                System.out.println("============================================================");
+                System.out.println("|| [1] Add New Room                                      ||");
+                System.out.println("|| [2] Edit Room                                         ||");
+                System.out.println("|| [3] Delete Room                                       ||");
+                System.out.println("|| [4] Search Room                                       ||");
+                System.out.println("|| [0] Exit                                              ||");
+                System.out.println("============================================================");
+                System.out.print("Please choose an action: ");
 
                 if (sc.hasNextInt()) {
                     action = sc.nextInt();
@@ -56,8 +60,8 @@ public class ManageRoom {
                 case 4:
                     showRoom(rooms);
                     break;
-                case 5:
-                    break;
+                case 0:
+                    System.exit(0);
             }
         }
     }
@@ -78,14 +82,14 @@ public class ManageRoom {
         choicesString.put(7, "Room Status");
         choicesString.put(8, "Exit");
 
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\t|\t\t\tSEARCH ROOM SYSTEM\t\t\t |");
-        System.out.println("\t\t==================================================================");
-        System.out.println("\n\t\tWhat attribute do you want to search by?");
+        System.out.println("\n=================================================================");
+        System.out.println("||                    SEARCH ROOM SYSTEM                       ||");
+        System.out.println("=================================================================");
+        System.out.println("\nWhat attribute do you want to search by?");
 
         while (true) {
-            System.out.println("\n\t\t[1] Room ID\n\t\t[2] Room Floor\n\t\t[3] Room Type\n\t\t[4] Room Capacity\n\t\t[5] Room Description\n\t\t[6] Room Price\n\t\t[7] Room Status\n\t\t[8] Exit to Main Menu");
-            System.out.print("\n\t\tEnter your choice (1-8): ");
+            System.out.println("\n[1] Room ID\n[2] Room Floor\n[3] Room Type\n[4] Room Capacity\n[5] Room Description\n[6] Room Price\n[7] Room Status\n[8] Exit to Main Menu");
+            System.out.print("\nEnter your choice (1-8): ");
 
             if (sc.hasNextInt()) {
                 search = sc.nextInt();
@@ -99,16 +103,16 @@ public class ManageRoom {
                     }
 
                     String stringChosen = choicesString.getOrDefault(search, "Invalid choice");
-                    System.out.print("\t\tConfirm to choose to search by '" + stringChosen + "'?(yes/no): ");
+                    System.out.print("Confirm to choose to search by '" + stringChosen + "'?(yes/no): ");
                     String confirmation = sc.nextLine().trim();
 
                     if (confirmation.equalsIgnoreCase("yes")) {
                         break;
                     } else if (confirmation.equalsIgnoreCase("no")) {
-                        System.out.println("\t\tOkay, please choose the search attribute again.");
+                        System.out.println("Okay, please choose the search attribute again.");
                     } else {
-                        System.out.println("\t\tInvalid confirmation. Please enter 'yes' or 'no'.");
-                        System.out.println("\t\tPlease choose the search attribute again.");
+                        System.out.println("Invalid confirmation. Please enter 'yes' or 'no'.");
+                        System.out.println("Please choose the search attribute again.");
                     }
                 }
             } else {
@@ -122,10 +126,10 @@ public class ManageRoom {
         switch (search) {
             case 1:
                 while (true) {
-                    System.out.print("\t\tEnter the exact Room ID: ");
+                    System.out.print("Enter the exact Room ID: ");
                     String id = sc.nextLine().trim();
                     if (id.isEmpty()) {
-                        System.out.println("\t\tRoom ID cannot be empty. Please try again.");
+                        System.out.println("Room ID cannot be empty. Please try again.");
                         continue;
                     }
                     searchResult = SearchRoomByAttribute(rooms, search, id);
@@ -133,8 +137,8 @@ public class ManageRoom {
                         displayRoomDetails(searchResult.get(0));
                         break;
                     } else {
-                        System.out.println("\n\t\tRoom with ID '" + id + "' not found.");
-                        System.out.print("\t\tSearch again by Room ID? (yes/no): ");
+                        System.out.println("\nRoom with ID '" + id + "' not found.");
+                        System.out.print("Search again by Room ID? (yes/no): ");
                         if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                             break;
                         }
@@ -144,10 +148,10 @@ public class ManageRoom {
 
             case 2:
                 while (true) {
-                    System.out.print("\t\tEnter the Room Floor: ");
+                    System.out.print("Enter the Room Floor: ");
                     String floor = sc.nextLine().trim();
                     if (floor.isEmpty()) {
-                        System.out.println("\t\tRoom Floor cannot be empty. Please try again.");
+                        System.out.println("Room Floor cannot be empty. Please try again.");
                         continue;
                     }
                     searchResult = SearchRoomByAttribute(rooms, search, floor);
@@ -155,8 +159,8 @@ public class ManageRoom {
                         filterRoomAttributes(searchResult, sc);
                         break;
                     } else {
-                        System.out.println("\n\t\tNo rooms found on floor '" + floor + "'.");
-                        System.out.print("\t\tSearch again by Room Floor? (yes/no): ");
+                        System.out.println("\nNo rooms found on floor '" + floor + "'.");
+                        System.out.print("Search again by Room Floor? (yes/no): ");
                         if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                             break;
                         }
@@ -165,11 +169,11 @@ public class ManageRoom {
                 break;
 
             case 3:
-                System.out.println("\t\tSelect the Room Type:");
+                System.out.println("Select the Room Type:");
                 int typeRoomChoice = 0;
                 while (true) {
-                    System.out.println("\n\t\t[1] Standard Room\n\t\t[2] Deluxe Room\n\t\t[3] Family Room\n\t\t[4] Suite\n\t\t[5] Executive Room");
-                    System.out.print("\t\tEnter the room type choice (1-5): ");
+                    System.out.println("\n[1] Standard Room\n[2] Deluxe Room\n[3] Family Room\n[4] Suite\n[5] Executive Room");
+                    System.out.print("Enter the room type choice (1-5): ");
                     if (sc.hasNextInt()) {
                         typeRoomChoice = sc.nextInt();
                         sc.nextLine();
@@ -204,20 +208,20 @@ public class ManageRoom {
                 if (searchResult != null && !searchResult.isEmpty()) {
                     filterRoomAttributes(searchResult, sc);
                 } else {
-                    System.out.println("\n\t\tNo rooms found matching type '" + type + "'.");
+                    System.out.println("\nNo rooms found matching type '" + type + "'.");
                 }
                 break;
 
             case 4:
                 while (true) {
-                    System.out.print("\t\tEnter the desired Room Capacity: ");
+                    System.out.print("Enter the desired Room Capacity: ");
                     String capacityStr = sc.nextLine().trim();
                     int targetCapacity;
 
                     try {
                         targetCapacity = Integer.parseInt(capacityStr);
                         if (targetCapacity <= 0) {
-                            System.out.println("\t\tCapacity must be a positive number. Please try again.");
+                            System.out.println("Capacity must be a positive number. Please try again.");
                             continue;
                         }
 
@@ -227,24 +231,24 @@ public class ManageRoom {
                             filterRoomAttributes(searchResult, sc);
                             break;
                         } else {
-                            System.out.println("\n\t\tNo rooms found with capacity '" + targetCapacity + "'.");
-                            System.out.print("\t\tSearch again by Room Capacity? (yes/no): ");
+                            System.out.println("\nNo rooms found with capacity '" + targetCapacity + "'.");
+                            System.out.print("Search again by Room Capacity? (yes/no): ");
                             if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                                 break;
                             }
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("\t\tInvalid capacity format. Please enter a whole number.");
+                        System.out.println("Invalid capacity format. Please enter a whole number.");
                     }
                 }
                 break;
 
             case 5:
                 while (true) {
-                    System.out.print("\t\tEnter a keyword for Room Description (e.g., simple, business, spacious): ");
+                    System.out.print("Enter a keyword for Room Description (e.g., simple, business, spacious): ");
                     String description = sc.nextLine().trim();
                     if (description.isEmpty()) {
-                        System.out.println("\t\tDescription keyword cannot be empty. Please try again.");
+                        System.out.println("Description keyword cannot be empty. Please try again.");
                         continue;
                     }
                     searchResult = SearchRoomByAttribute(rooms, search, description);
@@ -252,8 +256,8 @@ public class ManageRoom {
                         filterRoomAttributes(searchResult, sc);
                         break;
                     } else {
-                        System.out.println("\n\t\tNo rooms found matching description keyword '" + description + "'.");
-                        System.out.print("\t\tSearch again by Room Description? (yes/no): ");
+                        System.out.println("\nNo rooms found matching description keyword '" + description + "'.");
+                        System.out.print("Search again by Room Description? (yes/no): ");
                         if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                             break;
                         }
@@ -263,14 +267,14 @@ public class ManageRoom {
 
             case 6:
                 while (true) {
-                    System.out.print("\t\tEnter the Room Price (e.g., 150 or 150.00): RM ");
+                    System.out.print("Enter the Room Price (e.g., 150 or 150.00): RM ");
                     String priceString = sc.nextLine().trim();
                     double targetPrice;
 
                     try {
                         targetPrice = Double.parseDouble(priceString);
                         if (targetPrice < 0) {
-                            System.out.println("\n\t\tPrice cannot be negative. Please enter a valid price.");
+                            System.out.println("\nPrice cannot be negative. Please enter a valid price.");
                             continue;
                         }
 
@@ -280,24 +284,24 @@ public class ManageRoom {
                             filterRoomAttributes(searchResult, sc);
                             break;
                         } else {
-                            System.out.println("\n\t\tNo rooms found matching price " + String.format("RM %.2f", targetPrice) + ".");
-                            System.out.print("\t\tSearch again by Room Price? (yes/no): ");
+                            System.out.println("\nNo rooms found matching price " + String.format("RM %.2f", targetPrice) + ".");
+                            System.out.print("Search again by Room Price? (yes/no): ");
                             if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                                 break;
                             }
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("\n\t\tInvalid price format entered. Please enter a number (e.g., 150 or 150.00).");
+                        System.out.println("\nInvalid price format entered. Please enter a number (e.g., 150 or 150.00).");
                     }
                 }
                 break;
 
             case 7:
                 while (true) {
-                    System.out.print("\t\tEnter the Room Status (e.g., Available, Occupied, Maintenance): ");
+                    System.out.print("Enter the Room Status (e.g., Available, Occupied, Maintenance): ");
                     String status = sc.nextLine().trim();
                     if (status.isEmpty()) {
-                        System.out.println("\t\tRoom Status cannot be empty. Please try again.");
+                        System.out.println("Room Status cannot be empty. Please try again.");
                         continue;
                     }
                     searchResult = SearchRoomByAttribute(rooms, search, status);
@@ -305,8 +309,8 @@ public class ManageRoom {
                         filterRoomAttributes(searchResult, sc);
                         break;
                     } else {
-                        System.out.println("\n\t\tNo rooms found with status '" + status + "'.");
-                        System.out.print("\t\tSearch again by Room Status? (yes/no): ");
+                        System.out.println("\nNo rooms found with status '" + status + "'.");
+                        System.out.print("Search again by Room Status? (yes/no): ");
                         if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                             break;
                         }
@@ -315,17 +319,17 @@ public class ManageRoom {
                 break;
 
             default:
-                System.out.println("\n\t\tUnexpected error in search type selection.");
+                System.out.println("\nUnexpected error in search type selection.");
                 break;
         }
 
-        System.out.println("\n\t\t------------------------------------------------------------------");
+        System.out.println("\n------------------------------------------------------------------");
         if (search != 8) {
-            System.out.println("\t\tSearch finished. What action would you like to perform next?");
+            System.out.println("Search finished. What action would you like to perform next?");
             int choice = 0;
             while (true) {
-                System.out.println("\n\t\t[1] Edit Room\n\t\t[2] Delete Room\n\t\t[3] Return to Main Menu");
-                System.out.print("\t\tEnter your choice (1-3): ");
+                System.out.println("\n[1] Edit Room\n[2] Delete Room\n[3] Return to Main Menu");
+                System.out.print("Enter your choice (1-3): ");
                 if (sc.hasNextInt()) {
                     choice = sc.nextInt();
                     sc.nextLine();
@@ -351,11 +355,11 @@ public class ManageRoom {
                     mainPage();
                     break;
                 default:
-                    System.out.println("\t\tInvalid action choice.");
+                    System.out.println("Invalid action choice.");
                     break;
             }
 
-            System.out.println("\n\t\tPress [ENTER] to continue...");
+            System.out.println("\nPress [ENTER] to continue...");
             sc.nextLine();
             mainPage();
         }
@@ -395,14 +399,14 @@ public class ManageRoom {
             }
         }
         if (matchedRooms.isEmpty()) {
-            System.out.println("\n\t\tNo matching room found.");
+            System.out.println("\nNo matching room found.");
         }
         return matchedRooms;
     }
 
     public static void filterRoomAttributes(ArrayList<Room> rooms, Scanner sc) {
         if (rooms == null || rooms.isEmpty()) {
-            System.out.println("\n\t\tNo rooms found based on previous criteria to display details for.");
+            System.out.println("\nNo rooms found based on previous criteria to display details for.");
             return;
         }
 
@@ -412,20 +416,20 @@ public class ManageRoom {
             attributeChoices.clear();
             boolean validInputFound = true;
 
-            System.out.println("\n\t\tDisplay details for the " + rooms.size() + " found room(s).");
-            System.out.println("\t\tSelect which attributes to view:");
-            System.out.println("\t\t[1] ID  [2] Floor  [3] Type  [4] Capacity  [5] Description  [6] Price  [7] Status");
-            System.out.print("\t\tEnter attribute numbers separated by commas (e.g., 1,3,6): ");
+            System.out.println("\nDisplay details for the " + rooms.size() + " found room(s).");
+            System.out.println("Select which attributes to view:");
+            System.out.println("[1] ID  [2] Floor  [3] Type  [4] Capacity  [5] Description  [6] Price  [7] Status");
+            System.out.print("Enter attribute numbers separated by commas (e.g., 1,3,6): ");
             String input = sc.nextLine().trim();
 
             if (input.isEmpty()) {
-                System.out.println("\t\tInput cannot be empty. Please try again.");
+                System.out.println("Input cannot be empty. Please try again.");
                 continue;
             }
 
             String[] options = input.split(",");
             if (options.length == 0 && input.length() > 0) {
-                System.out.println("\t\tNo valid options entered. Please try again.");
+                System.out.println("No valid options entered. Please try again.");
                 continue;
             }
 
@@ -439,12 +443,12 @@ public class ManageRoom {
                     if (choice >= 1 && choice <= 7) {
                         attributeChoices.add(choice);
                     } else {
-                        System.out.println("\t\tError: Option '" + choice + "' is out of range (1-7). Input invalid.");
+                        System.out.println("Error: Option '" + choice + "' is out of range (1-7). Input invalid.");
                         validInputFound = false;
                         break;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("\t\tError: Input '" + trimmedOption + "' is not a valid number. Input invalid.");
+                    System.out.println("Error: Input '" + trimmedOption + "' is not a valid number. Input invalid.");
                     validInputFound = false;
                     break;
                 }
@@ -453,70 +457,74 @@ public class ManageRoom {
             if (validInputFound && !attributeChoices.isEmpty()) {
                 break;
             } else if (validInputFound && attributeChoices.isEmpty()) {
-                System.out.println("\t\tNo valid attribute numbers selected. Please try again.");
+                System.out.println("No valid attribute numbers selected. Please try again.");
             }
         }
 
-        System.out.println("\n\t\t===================== Displaying Selected Room Details =====================");
+        System.out.println("\n==================================================================");
+        System.out.println("||               DISPLAYING SELECTED ROOM DETAILS              ||");
+        System.out.println("==================================================================");
         int roomCounter = 0;
         for (Room room : rooms) {
             roomCounter++;
-            System.out.println("\n\t\t------------------------ Room " + roomCounter + " ------------------------");
+            System.out.println("\n==================================================================");
+            System.out.println("||                        ROOM " + roomCounter + " DETAILS                        ||");
+            System.out.println("==================================================================");
             displayRoomDetails(room, attributeChoices);
         }
-        System.out.println("\n\t\t===============================================================");
+        System.out.println("\n===============================================================");
     }
 
     public static void displayRoomDetails(Room room) {
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\tRoom ID: " + room.getId());
-        System.out.println("\t\tRoom Floor: " + room.getFloor());
-        System.out.println("\t\tType: " + room.getType());
-        System.out.println("\t\tCapacity: " + room.getCapacity());
-        System.out.println("\t\tPrice: " + room.getPrice());
-        System.out.println("\t\tDescription: " + room.getDescription());
-        System.out.println("\t\tStatus: " + room.getStatus());
-        System.out.println("\t\t==================================================================");
+        System.out.println("\n==================================================================");
+        System.out.println("Room ID: " + room.getId());
+        System.out.println("Room Floor: " + room.getFloor());
+        System.out.println("Type: " + room.getType());
+        System.out.println("Capacity: " + room.getCapacity());
+        System.out.println("Price: " + room.getPrice());
+        System.out.println("Description: " + room.getDescription());
+        System.out.println("Status: " + room.getStatus());
+        System.out.println("==================================================================");
     }
 
     public static void displayRoomDetails(Room room, Set<Integer> attributeChoices) {
         if (room == null) {
-            System.out.println("\t\tError: Cannot display details for a null room.");
+            System.out.println("Error: Cannot display details for a null room.");
             return;
         }
         if (attributeChoices == null || attributeChoices.isEmpty()) {
-            System.out.println("\t\tError: No attributes selected to display.");
+            System.out.println("Error: No attributes selected to display.");
             return;
         }
 
         if (attributeChoices.contains(1)) {
-            System.out.println("\t\t  Room ID: " + room.getId());
+            System.out.println("  Room ID: " + room.getId());
         }
         if (attributeChoices.contains(2)) {
-            System.out.println("\t\t  Room Floor: " + room.getFloor());
+            System.out.println("  Room Floor: " + room.getFloor());
         }
         if (attributeChoices.contains(3)) {
-            System.out.println("\t\t  Room Type: " + room.getType());
+            System.out.println("  Room Type: " + room.getType());
         }
         if (attributeChoices.contains(4)) {
-            System.out.println("\t\t  Room Capacity: " + room.getCapacity());
+            System.out.println("  Room Capacity: " + room.getCapacity());
         }
         if (attributeChoices.contains(5)) {
-            System.out.println("\t\t  Room Description: " + room.getDescription());
+            System.out.println("  Room Description: " + room.getDescription());
         }
         if (attributeChoices.contains(6)) {
-            System.out.println("\t\t  Room Price: RM " + String.format("%.2f", room.getPrice()));
+            System.out.println("  Room Price: RM " + String.format("%.2f", room.getPrice()));
         }
         if (attributeChoices.contains(7)) {
-            System.out.println("\t\t  Room Status: " + room.getStatus());
+            System.out.println("  Room Status: " + room.getStatus());
         }
     }
 
     public static void addNewRoom(ArrayList<Room> rooms) {
         clear();
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\t|\t\t\tADD ROOM SYSTEM\t\t\t\t  |");
-        System.out.println("\t\t==================================================================");
+        System.out.println("\n==================================================================");
+        System.out.println("||                      ADD ROOM SYSTEM                        ||");
+        System.out.println("==================================================================");
         Scanner sc = new Scanner(System.in);
         boolean detailsConfirm = false;
 
@@ -528,42 +536,42 @@ public class ManageRoom {
         double price = 0.0;
         String status = "";
         String newRoomId = "";
-        System.out.println("\n\t\tPlease fill in the details below: ");
-        System.out.print("\t\t==================================================================");
+        System.out.println("\nPlease fill in the details below: ");
+        System.out.print("==================================================================");
         do {
             while (true) {
-                System.out.print("\n\t\tEnter floor(Room number will be automated generated): ");
+                System.out.print("\nEnter floor(Room number will be automated generated): ");
                 floor = sc.nextLine();
                 if (floor.isEmpty()) {
-                    System.out.println("\n\t\tFloor cannot be empty. Please try again.");
+                    System.out.println("\nFloor cannot be empty. Please try again.");
                 } 
                 else {
                     if (floor.length() == 1) {
                         char inputFloor = floor.charAt(0);
                         if (!Character.isDigit(inputFloor)) {
-                            System.out.println("\n\t\tOnly digits are allowed");
+                            System.out.println("\nOnly digits are allowed");
                         } else if (Integer.parseInt(floor) == 0){
-                            System.out.println("\n\t\tFloor cannot be 0. Please try again.");
+                            System.out.println("\nFloor cannot be 0. Please try again.");
     
                         } else 
                         {
                         break;
                         }
                     } else {
-                        System.out.println("\n\t\tOnly input one digit. Please try again.\n");
+                        System.out.println("\nOnly input one digit. Please try again.\n");
                     }
                 }
             }
             while (true) {
-                System.out.print("\n\t\tEnter capacity: ");
+                System.out.print("\nEnter capacity: ");
                 capacityInput = sc.nextLine().trim();
                 if (capacityInput.isEmpty()) {
-                    System.out.println("\n\t\tCapacity cannot be empty");
+                    System.out.println("\nCapacity cannot be empty");
                 } else {
                     if (!isDigitsOnly(capacityInput)) {
-                        System.out.println("\n\t\tInvalid number, only integer is allowed.");
+                        System.out.println("\nInvalid number, only integer is allowed.");
                     } else if (Integer.parseInt(capacityInput) == 0){
-                        System.out.println("\n\t\tCapacity cannot be 0. Please try again.");
+                        System.out.println("\nCapacity cannot be 0. Please try again.");
                     }
                     else {
                         capacity = Integer.parseInt(capacityInput);
@@ -572,11 +580,19 @@ public class ManageRoom {
                 }
             }
             while (true) {
-                System.out.print("\n\t\tEnter room type: ");
+                System.out.print("\nEnter room type: ");
                 int typeRoom = 0;
                 while (true) {
-                    System.out.println("\n\t\t[1] Standard\n\t\t[2] Deluxe\n\t\t[3] Family\n\t\t[4] Suite\n\t\t[5] Executive");
-                    System.out.print("\n\t\tEnter the room type (1-5): ");
+                    System.out.println("\n============================================================");
+                    System.out.println("||                     ROOM TYPE SELECTION                ||");
+                    System.out.println("============================================================");
+                    System.out.println("||[1] Standard Room                                       ||");
+                    System.out.println("||[2] Deluxe Room                                         ||");
+                    System.out.println("||[3] Family Room                                         ||");                                   
+                    System.out.println("||[4] Suite                                               ||");
+                    System.out.println("||[5] Executive Room                                      ||");
+                    System.out.println("============================================================");
+                    System.out.print("Please choose an option: ");
                     if (sc.hasNextInt()) {
                         typeRoom = sc.nextInt();
                         sc.nextLine();
@@ -610,12 +626,12 @@ public class ManageRoom {
                 break;
             }
             while (true) {
-                System.out.println("\n\t\tChoose a description");
+                System.out.println("\nChoose a description");
                 for (int i = 0; i < descriptions.size(); i++) {
-                    System.out.println("\t\t[" + (i + 1) + "] " + descriptions.get(i));
+                    System.out.println("[" + (i + 1) + "] " + descriptions.get(i));
                 }
-                System.out.println("\t\t[" + (descriptions.size() + 1) + "] Write a custom description");
-                System.out.print("\n\t\tEnter your choice: ");
+                System.out.println("[" + (descriptions.size() + 1) + "] Write a custom description");
+                System.out.print("\nEnter your choice: ");
                 int choice = sc.nextInt();
                 sc.nextLine();
 
@@ -623,30 +639,30 @@ public class ManageRoom {
                     description = descriptions.get(choice - 1);
                     break;
                 } else if (choice == descriptions.size() + 1) {
-                    System.out.print("\n\t\tEnter your custom description: ");
+                    System.out.print("\nEnter your custom description: ");
                     description = sc.nextLine();
                     break;
                 } else {
-                    System.out.print("\n\t\tInvalid choice. Description not set.");
+                    System.out.print("\nInvalid choice. Description not set.");
                 }
             }
 
             while (true) {
-                System.out.print("\n\t\tEnter room price: RM ");
+                System.out.print("\nEnter room price: RM ");
                 if (sc.hasNextDouble()) {
                     price = sc.nextDouble();
                     sc.nextLine();
                     break;
                 } else {
-                    System.out.println("\n\t\tPlease input a correct price.");
+                    System.out.println("\nPlease input a correct price.");
                 }
             }
 
             while (true) {
-                System.out.print("\n\t\tEnter the status of the room: ");
+                System.out.print("\nEnter the status of the room: ");
                 status = askAvailableOrOccupied(sc);
                 if (status.isEmpty()) {
-                    System.out.println("\n\t\tStatus cannot be empty");
+                    System.out.println("\nStatus cannot be empty");
                 } else {
                     break;
                 }
@@ -666,7 +682,7 @@ public class ManageRoom {
                                 }
                             }
                         } catch (NumberFormatException e) {
-                            System.out.println("\n\t\tInvalid");
+                            System.out.println("\nInvalid");
                         }
                     }
                 }
@@ -681,38 +697,38 @@ public class ManageRoom {
             newRoomId = floor + padString;
 
             clear();
-            System.out.println("\n\t\t==================================================================");
-            System.out.println("\t\t|\t\tPlease confirm the details below:\t\t |");
-            System.out.println("\t\t==================================================================");
-            System.out.println("\t\tRoom ID: " + newRoomId);
-            System.out.println("\t\tFloor " + floor);
-            System.out.println("\t\tCapacity: " + capacityInput);
-            System.out.println("\t\tType: " + type);
-            System.out.println("\t\tDescription: " + description);
-            System.out.printf("\t\tPrice: RM %.2f%n", price);
-            System.out.println("\n\t\tStatus: " + status);
-            System.out.println("\t\t==================================================================");
+            System.out.println("\n==================================================================");
+            System.out.println("||                  PLEASE CONFIRM THE DETAILS BELOW            ||");
+            System.out.println("==================================================================");
+            System.out.println("|| Room ID       : " + newRoomId + "                              ||");
+            System.out.println("|| Floor         : " + floor + "                                  ||");
+            System.out.println("|| Capacity      : " + capacityInput + "                          ||");
+            System.out.println("|| Type          : " + type + "                                   ||");
+            System.out.println("|| Description   : " + description + "                            ||");
+            System.out.printf("|| Price         : RM %.2f                              ||%n", price);
+            System.out.println("|| Status        : " + status + "                                 ||");
+            System.out.println("==================================================================");
 
             while (true) {
-                System.out.print("\n\t\tDo you confirm the details above are correct? (yes/no): ");
+                System.out.print("\nDo you confirm the details above are correct? (yes/no): ");
                 String confirmation = sc.nextLine().trim();
 
                 if (confirmation.equalsIgnoreCase("yes")) {
                     detailsConfirm = true;
                     break;
                 } else if (confirmation.equalsIgnoreCase("no")) {
-                    System.out.print("\n\t\tDetails not confirmed. Please re-enter the room information by pressing [ENTER] or press [Q] to exit: ");
+                    System.out.print("\nDetails not confirmed. Please re-enter the room information by pressing [ENTER] or press [Q] to exit: ");
                     String continueAdd = sc.nextLine().trim();
                     if (continueAdd.equalsIgnoreCase("q")) {
-                        System.out.println("\n\t\tAdd new room cancelled.");
+                        System.out.println("\nAdd new room cancelled.");
                         return;
                     } else {
                         clear();
-                        System.out.println("\n\t\t==================================================================");
-                        System.out.println("\t\t|\t\t\tRE-ENTER ROOM DETAILS\t\t\t |");
-                        System.out.println("\t\t==================================================================");
-                        System.out.println("\n\t\tPlease fill in the details below: ");
-                        System.out.print("\t\t==================================================================");
+                        System.out.println("\n==================================================================");
+                        System.out.println("||                  RE-ENTER ROOM DETAILS                      ||");
+                        System.out.println("==================================================================");
+                        System.out.println("\nPlease fill in the details below:");
+                        System.out.println("==================================================================");
                         break;
                     }
                 } else {
@@ -724,71 +740,79 @@ public class ManageRoom {
         Room room = new Room(newRoomId, floor, capacity, type, description, price, status);
         rooms.add(room);//add this object to rooms array
         writeRoomFile(rooms, "room.txt");
-        System.out.println("\n\t\tRoom is added successfully!");
-        System.out.println("\n\t\tPress [ENTER] to continue..");
+        System.out.println("\nRoom is added successfully!");
+        System.out.println("\nPress [ENTER] to continue..");
         sc.nextLine();
         mainPage();
     }
 
     public static void editRoom(ArrayList<Room> rooms) {
         clear();
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\t|\t\t\tEDIT ROOM SYSTEM\t\t\t |");
-        System.out.println("\t\t==================================================================");
+        System.out.println("\n==================================================================");
+        System.out.println("||                      EDIT ROOM SYSTEM                        ||");
+        System.out.println("==================================================================");
         Scanner sc = new Scanner(System.in);
         boolean found = false;
         boolean continueEditing = true;
         while (continueEditing) {
             String typeName = "";
-            System.out.print("\n\t\tEnter the room ID to edit: ");
+            System.out.print("\nEnter the room ID to edit: ");
             String targetRoom = sc.nextLine();
             for (Room room : rooms) {
                 if (room.getId().equalsIgnoreCase(targetRoom)) {
                     found = true;
-                    System.out.print("\n\t\tRoom found: ");
+                    System.out.print("\nRoom found: ");
                     displayRoomDetails(room);
 
-                    System.out.println("\n\t\tWhat do you want to edit? (Can enter multiple choice using ','[eg: 1,2,3] )");
-                    System.out.println("\t\t[1] Room Capacity\n\t\t[2] Room Type\n\t\t[3] Room Description\n\t\t[4] Room Price\n\t\t[5] Room Status\n\t\t[6] Exit");
-                    System.out.print("\n\t\tEnter the choices you want to edit: ");
+                    System.out.println("\n=================================================================");
+                    System.out.println("||                  WHAT DO YOU WANT TO EDIT?                  ||");
+                    System.out.println("=================================================================");
+                    System.out.println("|| [1] Room Capacity                                           ||");
+                    System.out.println("|| [2] Room Type                                               ||");
+                    System.out.println("|| [3] Room Description                                        ||");
+                    System.out.println("|| [4] Room Price                                              ||");
+                    System.out.println("|| [5] Room Status                                             ||");
+                    System.out.println("|| [0] Exit                                                    ||");
+                    System.out.println("=================================================================");
+                    System.out.print("Please choose an option: ");
                     String editDetails = sc.nextLine().trim();
 
                     String[] options = editDetails.split(",");
                     for (String option : options) {
                         switch (option.trim()) {
                             case "1":
-                                System.out.println("\n\t\t------------------ Edit Capacity ------------------");
+                                System.out.println("\n------------------ Edit Capacity ------------------");
                                 int newCapacity = 0;
                                 while (true) {
-                                    System.out.print("\n\t\tEnter the new capacity: ");
+                                    System.out.print("\nEnter the new capacity: ");
                                     if (sc.hasNextInt()) {
                                         newCapacity = sc.nextInt();
                                         sc.nextLine();
                                         if (newCapacity > 0) {
                                             break;
                                         } else {
-                                            System.out.println("\n\t\tCapacity must be positive.");
+                                            System.out.println("\nCapacity must be positive.");
                                         }
                                     } else {
-                                        System.out.print("\n\t\tInvalid input. Please enter an integer.");
+                                        System.out.print("\nInvalid input. Please enter an integer.");
                                         sc.next();
                                         sc.nextLine();
                                     }
                                 }
-                                if (confirmAction(sc, "\n\t\tConfirm change capacity to " + newCapacity + "?")) {
+                                if (confirmAction(sc, "\nConfirm change capacity to " + newCapacity + "?")) {
                                     room.setCapacity(newCapacity);
                                     updateRoomFile(room.getId(), 1, String.valueOf(newCapacity)); // Update file
-                                    System.out.println("\n\t\tCapacity updated successfully!");
+                                    System.out.println("\nCapacity updated successfully!");
                                 } else {
-                                    System.out.println("\n\t\tCapacity change cancelled.");
+                                    System.out.println("\nCapacity change cancelled.");
                                 }
                                 break;
                             case "2":
-                                System.out.println("\n\t\t----------------- Edit Room Type -----------------");
+                                System.out.println("\n----------------- Edit Room Type -----------------");
                                 int newType = 0;
                                 while (true) {
-                                    System.out.println("\n\t\t[1] Standard\n\t\t[2] Deluxe\n\t\t[3] Family\n\t\t[4] Suite\n\t\t[5] Executive");
-                                    System.out.print("\n\t\tEnter the type to change(1-5): ");
+                                    System.out.println("\n[1] Standard\n[2] Deluxe\n[3] Family\n[4] Suite\n[5] Executive");
+                                    System.out.print("\nPlease choose an option: ");
                                     if (sc.hasNextInt()) {
                                         newType = sc.nextInt();
                                         sc.nextLine();
@@ -825,53 +849,53 @@ public class ManageRoom {
                                         typeName = "Executive Room";
                                         break;
                                 }
-                                if (confirmAction(sc, "\n\t\tConfirm change type to '" + typeName + "'?")) {
+                                if (confirmAction(sc, "\nConfirm change type to '" + typeName + "'?")) {
                                     room.setType(typeName); // Update object
                                     updateRoomFile(room.getId(), 2, typeName); // Update file
-                                    System.out.println("\n\t\tType updated successfully!");
+                                    System.out.println("\nType updated successfully!");
                                 } else {
-                                    System.out.println("\n\t\tType change cancelled.");
+                                    System.out.println("\nType change cancelled.");
                                 }
                                 break;
                             case "3":
-                                System.out.println("\n\t\t------------------ Edit Price ------------------");
+                                System.out.println("\n------------------ Edit Price ------------------");
                                 double newPrice = 0.0;
                                 while (true) {
-                                    System.out.print("\n\t\tEnter new room price: RM ");
+                                    System.out.print("\nEnter new room price: RM ");
                                     if (sc.hasNextDouble()) {
                                         newPrice = sc.nextDouble();
                                         sc.nextLine();
                                         if (newPrice >= 0) {
                                             break;
                                         } else {
-                                            System.out.println("\n\t\tPrice cannot be negative.");
+                                            System.out.println("\nPrice cannot be negative.");
                                         }
                                     } else {
-                                        System.out.println("\n\t\tInvalid input. Please enter a valid price.");
+                                        System.out.println("\nInvalid input. Please enter a valid price.");
                                         sc.next();
                                         sc.nextLine();
                                     }
                                 }
                                 String priceCheck = String.format("RM %.2f", newPrice);
-                                if (confirmAction(sc, "\n\t\tConfirm change price to " + priceCheck + "?")) {
+                                if (confirmAction(sc, "\nConfirm change price to " + priceCheck + "?")) {
                                     room.setPrice(newPrice);
                                     updateRoomFile(room.getId(), 3, String.valueOf(newPrice));
-                                    System.out.println("\n\t\tPrice updated successfully!");
+                                    System.out.println("\nPrice updated successfully!");
                                 } else {
-                                    System.out.println("\n\t\tPrice change cancelled.");
+                                    System.out.println("\nPrice change cancelled.");
                                 }
                                 break;
 
                             case "4":
-                                System.out.println("\n\t\t----------------- Edit Description -----------------");
+                                System.out.println("\n----------------- Edit Description -----------------");
                                 String newDescription;
                                 while (true) {
-                                    System.out.println("\n\t\tChoose a description");
+                                    System.out.println("\n\tChoose a description");
                                     for (int i = 0; i < descriptions.size(); i++) {
-                                        System.out.println("\t\t[" + (i + 1) + "] " + descriptions.get(i));
+                                        System.out.println("[" + (i + 1) + "] " + descriptions.get(i));
                                     }
-                                    System.out.println("\t\t[" + (descriptions.size() + 1) + "] Write a custom description");
-                                    System.out.print("\n\t\tEnter your choice: ");
+                                    System.out.println("[" + (descriptions.size() + 1) + "] Write a custom description");
+                                    System.out.print("\nEnter your choice: ");
                                     if (sc.hasNextInt()) {
                                         int choice = sc.nextInt();
                                         sc.nextLine();
@@ -879,77 +903,77 @@ public class ManageRoom {
                                             newDescription = descriptions.get(choice - 1);
                                             break;
                                         } else if (choice == descriptions.size() + 1) {
-                                            System.out.print("\n\t\tEnter your custom description: ");
+                                            System.out.print("\nEnter your custom description: ");
                                             newDescription = sc.nextLine();
                                             if (newDescription.isEmpty()) {
-                                                System.out.println("\n\t\tCustom description cannot be empty.");
+                                                System.out.println("\nCustom description cannot be empty.");
                                                 continue;
                                             }
                                             break;
                                         } else {
-                                            System.out.print("\n\t\tInvalid choice. Description not set.");
+                                            System.out.print("\nInvalid choice. Description not set.");
                                         }
                                     } else {
-                                        System.out.println("\n\t\tInvalid input. Please enter a number.");
+                                        System.out.println("\nInvalid input. Please enter a number.");
                                         sc.next();
                                         sc.nextLine();
                                     }
                                 }
-                                if (confirmAction(sc, "\n\t\tConfirm change description to '" + newDescription + "'?")) {
+                                if (confirmAction(sc, "\nConfirm change description to '" + newDescription + "'?")) {
                                     room.setDescription(newDescription);
                                     updateRoomFile(room.getId(), 4, newDescription);
-                                    System.out.println("\n\t\tDescription updated successfully!");
+                                    System.out.println("\nDescription updated successfully!");
                                 } else {
-                                    System.out.println("\n\t\tDescription change cancelled.");
+                                    System.out.println("\nDescription change cancelled.");
                                 }
                                 break;
 
                             case "5":
-                                System.out.println("\n\t\t------------------ Edit Status ------------------");
+                                System.out.println("\n------------------ Edit Status ------------------");
                                 String newStatus = askAvailableOrOccupied(sc);
-                                if (confirmAction(sc, "\n\t\tConfirm change status to '" + newStatus + "'?")) {
+                                if (confirmAction(sc, "\nConfirm change status to '" + newStatus + "'?")) {
                                     room.setStatus(newStatus);
                                     updateRoomFile(room.getId(), 5, newStatus);
-                                    System.out.println("\n\t\tStatus updated successfully!");
+                                    System.out.println("\nStatus updated successfully!");
                                 } else {
-                                    System.out.println("\n\t\tStatus change cancelled.");
+                                    System.out.println("\nStatus change cancelled.");
                                 }
                                 break;
 
-                            case "6":
-                                System.out.println("\n\t\tFinished editing Room " + room.getId() + ".");
+                            case "0":
+                                System.out.println("\nFinished editing Room " + room.getId() + ".");
                                 continueEditing = false;
                                 break;
 
                             default:
-                                System.out.println("\n\t\tInvalid choice. Please enter a number between 1 and 6.");
+                                System.out.println("\nInvalid choice. Please enter a number between 1 and 6.");
                                 break;
                         }
 
                         if (continueEditing) {
-                            System.out.print("\n\t\tPress [ENTER] to continue editing this room...");
+                            System.out.print("\nPress [ENTER] to continue editing this room...");
                             sc.nextLine();
                             clear();
-                            System.out.println("\n\t\t==================================================================");
-                            System.out.println("\t\t|\t\t\tEDIT ROOM SYSTEM\t\t\t |");
-                            System.out.println("\t\t==================================================================");
-                            System.out.println("\n\t\tCurrent Details for Room " + room.getId() + ":");
+                            System.out.println("\n==================================================================");
+                            System.out.println("||                      EDIT ROOM SYSTEM                        ||");
+                            System.out.println("==================================================================");
+                            System.out.println("\nCurrent Details for Room " + room.getId() + ":");
                             displayRoomDetails(room);
                         }
                     }
-                    System.out.println("\n\t\tPress [ENTER] to return to the main menu...");
+                    System.out.println("\nPress [ENTER] to return to the main menu...");
                     sc.nextLine();
                     mainPage();
                 }
             }
 
             if (!found) {
-                System.out.println("\n\t\tRoom not found. Please try again.");
+                System.out.println("\nRoom not found. Please try again.");
                 continue;
             }
             break;
         }
-        System.out.println("\n\t\tPress [ENTER] to continue..");
+        System.out.println("\nPress [ENTER] to continue..");
         sc.nextLine();
         mainPage();
     }
@@ -971,19 +995,19 @@ public class ManageRoom {
     public static void deleteRoom(ArrayList<Room> currentRooms) {
         clear();
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\t|\t\t\tDELETE ROOM SYSTEM\t\t\t |");
-        System.out.println("\t\t==================================================================");
+        System.out.println("\n==================================================================");
+        System.out.println("||                      DELETE ROOM SYSTEM                      ||");
+        System.out.println("==================================================================");
         String filename = "room.txt";
 
         if (currentRooms.isEmpty()) {
-            System.out.println("\n\t\tThe room list is currently empty. No rooms to delete.");
-            System.out.println("\n\t\tPress [ENTER] to continue...");
+            System.out.println("\nThe room list is currently empty. No rooms to delete.");
+            System.out.println("\nPress [ENTER] to continue...");
             sc.nextLine();
             return;
         }
 
-        System.out.print("\n\t\tPlease enter the room ID that you want to delete: ");
+        System.out.print("\nPlease enter the room ID that you want to delete: ");
         String idToDelete = sc.nextLine().trim();
 
         Room roomToDelete = null;
@@ -999,33 +1023,33 @@ public class ManageRoom {
         }
 
         if (roomToDelete != null) {
-            System.out.println("\n\t\tRoom Found:");
+            System.out.println("\nRoom Found:");
             displayRoomDetails(roomToDelete);
             while (true) {
-                System.out.print("\n\t\tConfirm to delete this room? (yes/no): ");
+                System.out.print("\nConfirm to delete this room? (yes/no): ");
                 String deleteConfirm = sc.nextLine().trim();
                 if (deleteConfirm.equalsIgnoreCase("yes")) {
                     currentRooms.remove(roomIndex);
-                    System.out.println("\n\t\tRoom with ID '" + idToDelete + "' has been deleted.");
+                    System.out.println("\nRoom with ID '" + idToDelete + "' has been deleted.");
                     writeRoomFile(currentRooms, filename);
                     break;
                 } else if (deleteConfirm.equalsIgnoreCase("no")) {
-                    System.out.println("\n\t\tDeletion cancelled for Room ID '" + idToDelete + "'.");
+                    System.out.println("\nDeletion cancelled for Room ID '" + idToDelete + "'.");
                     break;
                 } else {
                     errorMessageWord();
                 }
             }
         } else {
-            System.out.println("\n\t\tRoom with ID '" + idToDelete + "' not found in the list. No changes made.");
+            System.out.println("\nRoom with ID '" + idToDelete + "' not found in the list. No changes made.");
         }
-        System.out.println("\n\t\tPress [ENTER] to continue...");
+        System.out.println("\nPress [ENTER] to continue...");
         sc.nextLine();
     }
 
     public static String askAvailableOrOccupied(Scanner sc) {
         while (true) {
-            System.out.print("\n\t\tEnter new room status (Available/Occupied): ");
+            System.out.print("\nEnter new room status (Available/Occupied): ");
             String newStatus = sc.nextLine().trim();
             String confirm = "";
 
@@ -1036,17 +1060,17 @@ public class ManageRoom {
             }
 
             if (newStatus.toLowerCase().contains("ava")) {
-                System.out.print("\n\t\tDid you mean 'Available'? (yes/no): ");
+                System.out.print("\nDid you mean 'Available'? (yes/no): ");
                 confirm = sc.nextLine().trim();
                 if (confirm.equalsIgnoreCase("yes")) {
                     return "Available";
                 } else if (confirm.equalsIgnoreCase("no")) {
                     continue;
                 } else {
-                    System.out.println("\n\t\tPlease input the correct word");
+                    System.out.println("\nPlease input the correct word");
                 }
             } else if (newStatus.toLowerCase().contains("occ")) {
-                System.out.print("\n\t\tDid you mean 'Occupied' ? (yes/no): ");
+                System.out.print("\nDid you mean 'Occupied' ? (yes/no): ");
                 if (confirm.equalsIgnoreCase("yes")) {
                     return "Occupied";
                 } else if (confirm.equalsIgnoreCase("no")) {
@@ -1055,7 +1079,7 @@ public class ManageRoom {
                     errorMessageWord();
                 }
             } else {
-                System.out.println("\n\t\tUnrecognized input. Please enter 'Available' or 'Occupied'");
+                System.out.println("\nUnrecognized input. Please enter 'Available' or 'Occupied'");
             }
         }
     }
@@ -1215,13 +1239,13 @@ public class ManageRoom {
     }
 
     public static void errorMessageNumber() {
-        System.out.print("\n\t\t===================================");
-        System.out.println("\n\t\tError. Invalid input. Please input the correct number.");
+        System.out.print("\n===================================");
+        System.out.println("\nError. Invalid input. Please input the correct number.");
     }
 
     public static void errorMessageWord() {
-        System.out.print("\n\t\t===================================");
-        System.out.println("\n\t\tError. Invalid input. Please input the correct word.");
+        System.out.print("\n===================================");
+        System.out.println("\nError. Invalid input. Please input the correct word.");
     }
 
     public static void clear() {
