@@ -39,9 +39,10 @@ public class RefundTypeManager {
 
         if (!typesFile.exists()) {
             System.out.println("File '" + filename + "' not found. Creating with default types.");
-            try (FileWriter writer = new FileWriter(typesFile)) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(typesFile))) {
                 for (String type : defaultTypes) {
-                    writer.write(type + System.lineSeparator());
+                    writer.write(type);
+                    writer.newLine();
                 }
                 System.out.println("Default types written to '" + filename + "'.");
                 loadedTypes.addAll(defaultTypes);
@@ -52,29 +53,40 @@ public class RefundTypeManager {
             }
         } else {
             try {
-                List<String> lines = Files.readAllLines(Paths.get(filename));
-                for (String line : lines) {
-                    String trimmedLine = line.trim();
-                    if (!trimmedLine.isEmpty()) {
-                        loadedTypes.add(trimmedLine);
-                    }
-                }
-                if (loadedTypes.isEmpty()) {
-                    System.err.println("Warning: File '" + filename + "' was found but is empty or contains only whitespace. Using default types.");
+                 System.out.println("Reading refund types from: " + filename);
+                 List<String> lines = Files.readAllLines(Paths.get(filename)); // Uses default charset
+                 for (String line : lines) {
+                     String trimmedLine = line.trim();
+                     if (!trimmedLine.isEmpty()) {
+                         // Ensure only the name part before any '|' is added
+                         String[] parts = trimmedLine.split("\\|", 2);
+                         if (parts.length > 0 && !parts[0].trim().isEmpty()) {
+                             loadedTypes.add(parts[0].trim());
+                         } else {
+                             System.err.println("Warning: Found empty or invalid type name in line: " + line);
+                         }
+                     }
+                 }
+                 if (loadedTypes.isEmpty()) {
+                    System.err.println("Warning: File '" + filename + "' was found but is empty or contains only whitespace/invalid lines. Using default types.");
                     loadedTypes.addAll(defaultTypes);
-                } else {
+                 } else {
                     System.out.println("Successfully loaded " + loadedTypes.size() + " refund types from '" + filename + "'.");
-                }
+                 }
             } catch (IOException e) {
                 System.err.println("Error reading file '" + filename + "': " + e.getMessage());
                 System.err.println("CRITICAL: Falling back to hardcoded default types.");
                 loadedTypes.clear();
                 loadedTypes.addAll(defaultTypes);
+            } catch (Exception e) {
+                 System.err.println("An unexpected error occurred while loading types from '" + filename + "': " + e.getMessage());
+                 System.err.println("CRITICAL: Falling back to hardcoded default types.");
+                 loadedTypes.clear();
+                 loadedTypes.addAll(defaultTypes);
             }
         }
         return loadedTypes;
     }
-
     private List<String> readLinesFromFile(String filename) {
         File file = new File(filename);
         if (!file.exists()) {
