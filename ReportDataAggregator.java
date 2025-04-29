@@ -10,12 +10,12 @@ public class ReportDataAggregator {
 
         double totalRevenue;          // Sum of transaction amounts in period
         double estimatedRoomRevenue;  // Sum of prorated booking prices in period
-        int totalAvailableRoomDays; // totalAvailableRooms * duration
-        int totalRoomDaysSold;      // Sum of days occupied within period
+        int totalAvailableRoomNights; // totalAvailableRooms * duration
+        int totalRoomNightsSold;      // Sum of nights occupied within period
         int numberOfBookingsInPeriod;
         Map<String, Double> revenueByRoomType; // Estimated based on booking prices
         int totalPhysicalRooms;       // Total rooms listed
-        long durationInDays;          // Length of reporting period
+        long durationInNights;          // Length of reporting period
     }
 
     public static ReportSummary calculateDataForPeriod(LocalDate startDate, LocalDate endDate,
@@ -25,16 +25,16 @@ public class ReportDataAggregator {
 
         ReportSummary summary = new ReportSummary();
         summary.revenueByRoomType = new HashMap<>();
-        summary.durationInDays = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        summary.durationInNights = ChronoUnit.DAYS.between(startDate, endDate);
 
         // --- Calculate Available Rooms & Days ---
         // Assuming all rooms in the list are potentially available
         // Add logic here to exclude "OutOfOrder" if that status exists and matters
         summary.totalPhysicalRooms = allRooms.size();
-        summary.totalAvailableRoomDays = (int) (summary.totalPhysicalRooms * summary.durationInDays);
+        summary.totalAvailableRoomNights = (int) (summary.totalPhysicalRooms * summary.durationInNights);
 
         // --- Process Bookings ---
-        int roomDaysSold = 0;
+        int roomNightsSold = 0;
         int bookingCount = 0;
         double estimatedRoomRevenue = 0;
 
@@ -43,17 +43,17 @@ public class ReportDataAggregator {
                 // Check if booking status indicates it actually happened (e.g., not 'CANCELLED')
                 // Add status check if necessary: if(!booking.getStatus().equals("CANCELLED")) { ... }
                 bookingCount++;
-                roomDaysSold += booking.getDays();
+                roomNightsSold += booking.getNights();
 
                 // Estimate room revenue for the period from this booking
-                if (booking.getDays() > 0 && booking.getDays() > 0) {
+                if (booking.getNights() > 0) {
                     double proratedRevenue = ((double) booking.getTotalPrice() - 200); //-200 for deposit
                     estimatedRoomRevenue += proratedRevenue;
                     summary.revenueByRoomType.merge(booking.getRoomType(), proratedRevenue, Double::sum);
                 }
             }
         }
-        summary.totalRoomDaysSold = roomDaysSold;
+        summary.totalRoomNightsSold = roomNightsSold;
         summary.numberOfBookingsInPeriod = bookingCount;
         summary.estimatedRoomRevenue = estimatedRoomRevenue; // Store the estimation
 
