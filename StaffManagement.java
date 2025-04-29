@@ -14,18 +14,22 @@ public class StaffManagement {
         while (action != 5) {
             while (true){
             clear();
-            System.out.println("\n\t\t============================================");
-            System.out.println("\t\t|\tHOTEL STAFF MANAGEMENT SYSTEM\t   |");
-            System.out.println("\t\t============================================");
-            System.out.println("\n\t\tPlease select an option: ");
-            System.out.println("\n\t\t[1] Add New Staff\n\t\t[2] Edit Staff\n\t\t[3] Delete Staff\n\t\t[4] Search Staff\n\t\t[5] Exit");
-            System.out.print("\t\tPlease choose your action (1-5): ");
+            System.out.println("\n=================================================================");
+            System.out.println("||               HOTEL STAFF MANAGEMENT SYSTEM                 ||");
+            System.out.println("=================================================================");
+            System.out.println("|| [1] Add New Staff                                           ||");
+            System.out.println("|| [2] Edit Staff                                              ||");
+            System.out.println("|| [3] Delete Staff                                            ||");
+            System.out.println("|| [4] Search Staff                                            ||");
+            System.out.println("|| [0] Exit                                                    ||");
+            System.out.println("=================================================================");
+            System.out.print("Please choose an action: ");
 
             if (sc.hasNextInt()) {
                 action = sc.nextInt();
                 sc.nextLine();
 
-                if (action < 1 || action > 5) {
+                if (action < 0 || action > 5) {
                     errorMessageNumber();
                 } else {
                     break;
@@ -35,7 +39,7 @@ public class StaffManagement {
                 sc.next();
             }
         }
-        switch (action) {
+        switch(action) {
             case 1:
                 addNewStaff(staffs);
                 break;
@@ -48,7 +52,7 @@ public class StaffManagement {
             case 4:
                 showStaff();
                 break;
-            case 5:
+            case 0:
                 break;
         }
     }
@@ -57,49 +61,49 @@ public class StaffManagement {
     public static void addNewStaff(ArrayList<Staff> currentStaffList) {
         clear();
         clear();
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\t|\t\t\tADD STAFF SYSTEM\t\t\t |");
-        System.out.println("\t\t==================================================================");
+        System.out.println("\n==================================================================");
+        System.out.println("||                       ADD STAFF SYSTEM                       ||");
+        System.out.println("==================================================================");
         Scanner sc = new Scanner(System.in);
         boolean detailsConfirm = false;
 
         String id, name, phoneNo, icNo = "";
         char gender;
         double salary = 0;
-        System.out.println("\n\t\tStaff ID will auto generated.");
-        System.out.println("\n\t\tPlease fill in the details below: ");
-        System.out.print("\t\t==================================================================");
+        System.out.println("\nStaff ID will auto generated.");
+        System.out.println("\nPlease fill in the details below: ");
+        System.out.print("==================================================================");
 
         do {
 
             while (true) {
-                System.out.print("\n\t\tStaff Name: ");
+                System.out.print("\nStaff Name: ");
                 name = sc.nextLine();
                 if (name.isEmpty()) {
-                    System.out.println("\n\t\tName cannot be empty. Please try again.");
+                    System.out.println("\nName cannot be empty. Please try again.");
                 } else {
                     break;
                 }
             }
 
             while (true) {
-                System.out.print("\n\t\tPhone number (e.g. 0121234567): ");
+                System.out.print("\nPhone number (e.g. 0121234567): ");
                 phoneNo = sc.nextLine().trim();
                 if (phoneNo.length() == 10 && phoneNo.matches("\\d+")) {
                     break;
                 } else {
-                    System.out.println("\n\t\t[Invalid phone number format. Please enter exactly 10 digits]\n");
+                    System.out.println("\n[Invalid phone number format. Please enter exactly 10 digits]\n");
                 }
             }
 
             while (true) {
-                System.out.print("\n\t\tEnter IC Number: (E.g. 010131-12-19234): ");
+                System.out.print("\nEnter IC Number: (E.g. 010131-12-19234): ");
                 icNo = sc.nextLine();
                 if (icNo.isEmpty()) {
-                    System.out.println("\n\t\tIC Number cannot be blank. Please try agian.");
+                    System.out.println("\nIC Number cannot be blank. Please try agian.");
                 } else {
                     if (icNo.length() <= 7) {
-                        System.out.println("\n\t\tInvalid format. IC number is too short. Expected format: xxxxxx-xx-xxxx");
+                        System.out.println("\nInvalid format. IC number is too short. Expected format: xxxxxx-xx-xxxx");
                     } else if (icNo.charAt(6) == '-' && icNo.charAt(9) == '-') {
                         break;
                     } else {
@@ -109,13 +113,13 @@ public class StaffManagement {
             }
 
             while (true) {
-                System.out.print("\n\t\tEnter gender (M/F): ");
+                System.out.print("\nEnter gender (M/F): ");
                 String input = sc.nextLine().trim();
                 if (input.isEmpty()) {
-                    System.out.println("\n\t\tGender cannot be empty. Please try again.");
+                    System.out.println("\nGender cannot be empty. Please try again.");
                 } else {
                     if (input.length() != 1) {
-                        System.out.println("\n\t\tInvalid format. Only one character is allowed for gender. Expected input: F (OR) M");
+                        System.out.println("\nInvalid format. Only one character is allowed for gender. Expected input: F (OR) M");
                     } else if (input.charAt(0) == 'F' || input.charAt(0) == 'f') {
                         gender = 'F';
                         break;
@@ -129,11 +133,11 @@ public class StaffManagement {
             }
 
             while (true) {
-                System.out.print("\n\t\tEnter Salary: RM ");
+                System.out.print("\nEnter Salary: RM ");
                 salary = sc.nextDouble();
                 sc.nextLine();
                 if (salary < 0 || salary == 0) {
-                    System.out.println("\n\t\tSalary must be positive number.");
+                    System.out.println("\nSalary must be positive number.");
                 } else {
                     break;
                 }
@@ -152,7 +156,7 @@ public class StaffManagement {
                             highestStaffNum = currentIdNum;
                         }
                     } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                        System.err.println("\n\t\tWarning: Skipping staff with unexpected IF format: " + staff.getId());
+                        System.err.println("\nWarning: Skipping staff with unexpected IF format: " + staff.getId());
                     }
                 }
             }
@@ -171,37 +175,37 @@ public class StaffManagement {
             id = prefix + String.format("%03d", nextStaffId);
 
             clear();
-            System.out.println("\n\t\t==================================================================");
-            System.out.println("\t\t|\t\tPlease confirm the details below:\t\t |");
-            System.out.println("\t\t==================================================================");
-            System.out.println("\t\tStaff ID: " + id);
-            System.out.println("\t\tName: " + name);
-            System.out.println("\t\tGender: " + gender);
-            System.out.println("\t\tIC Number: " + icNo);
-            System.out.printf("\t\tSalary: RM %.2f%n", salary);
-            System.out.println("\n\t\t==================================================================");
+            System.out.println("\n==================================================================");
+            System.out.println("|| Please confirm the details below:                            ||");
+            System.out.println("==================================================================");
+            System.out.println("Staff ID: " + id);
+            System.out.println("Name: " + name);
+            System.out.println("Gender: " + gender);
+            System.out.println("IC Number: " + icNo);
+            System.out.printf("Salary: RM %.2f%n", salary);
+            System.out.println("\n==================================================================");
 
             while (true) {
-                System.out.print("\n\t\tDo you confirm the details above are correct? (yes/no): ");
+                System.out.print("\nDo you confirm the details above are correct? (yes/no): ");
                 String confirmation = sc.nextLine().trim();
 
                 if (confirmation.equalsIgnoreCase("yes")) {
                     detailsConfirm = true;
                     break;
                 } else if (confirmation.equalsIgnoreCase("no")) {
-                    System.out.print("\n\t\tDetails not confirmed. Please re-enter the staff information by pressing [ENTER] or press [Q] to exit: ");
+                    System.out.print("\nDetails not confirmed. Please re-enter the staff information by pressing [ENTER] or press [Q] to exit: ");
                     String continueAdd = sc.nextLine().trim();
                     if (continueAdd.equalsIgnoreCase("q")) {
-                        System.out.println("\n\t\tAdd new staff cancelled.");
+                        System.out.println("\nAdd new staff cancelled.");
                         return;
                     }
                     else{
                         clear();
-                        System.out.println("\n\t\t==================================================================");
-                        System.out.println("\t\t|\t\t    RE-ENTER CUSTOMER DETAILS\t\t\t |");
-                        System.out.println("\t\t==================================================================");
-                        System.out.println("\n\t\tPlease fill in the details below: ");
-                        System.out.print("\t\t==================================================================");
+                        System.out.println("\n==============================================================");
+                        System.out.println("|| RE-ENTER CUSTOMER DETAILS                                ||");
+                        System.out.println("==============================================================");
+                        System.out.println("\nPlease fill in the details below: ");
+                        System.out.print("================================================================");
                         break;
                     }
                 } else {
@@ -215,8 +219,8 @@ public class StaffManagement {
         Staff staff = new Staff(id, name, phoneNo, gender, icNo, salary);
         staffs.add(staff);
         writeStaffFile(staffs, "staff.txt");
-        System.out.println("\n\t\tStaff is added successfully!");
-        System.out.println("\n\t\tPress [ENTER] to continue..");
+        System.out.println("\nStaff is added successfully!");
+        System.out.println("\nPress [ENTER] to continue..");
         sc.nextLine();
         mainPage();
     }
@@ -235,14 +239,20 @@ public class StaffManagement {
         choicesString.put(5, "Staff IC Number");
         choicesString.put(6, "Staff Salary");
 
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\t|\t\t\tSEARCH STAFF SYSTEM\t\t\t |");
-        System.out.println("\t\t==================================================================");
-        System.out.println("\n\t\tWhat attribute do you want to search by?");
+        System.out.println("==================================================================");
+        System.out.println("||                      SEARCH STAFF SYSTEM                     ||");
+        System.out.println("==================================================================");
 
         while (true) {
-            System.out.println("\n\t\t[1] Staff ID\n\t\t[2] Staff Name\n\t\t[3] Staff Phone Number\n\t\t[4] Staff Gender\n\t\t[5] Staff IC Number\n\t\t[6] Staff Salary\n\t\t[7] Exit to Main Menu");
-            System.out.print("\n\t\tEnter your choice (1-8): ");
+            System.out.println("|| [1] Staff ID                                                ||");
+            System.out.println("|| [2] Staff Name                                              ||");
+            System.out.println("|| [3] Staff Phone Number                                      ||");
+            System.out.println("|| [4] Staff Gender                                            ||");
+            System.out.println("|| [5] Staff IC Number                                         ||");
+            System.out.println("|| [6] Staff Salary                                            ||");
+            System.out.println("|| [7] Exit to Main Menu                                       ||");
+            System.out.println("=================================================================");
+            System.out.print("Please choose an option: ");
 
             if (sc.hasNextInt()) {
                 search = sc.nextInt();
@@ -256,16 +266,16 @@ public class StaffManagement {
                     }
 
                     String stringChosen = choicesString.getOrDefault(search, "Invalid choice");
-                    System.out.print("\t\tConfirm to choose to search by '" + stringChosen + "'?(yes/no): ");
+                    System.out.print("Confirm to choose to search by '" + stringChosen + "'?(yes/no): ");
                     String confirmation = sc.nextLine().trim();
 
                     if (confirmation.equalsIgnoreCase("yes")) {
                         break;
                     } else if (confirmation.equalsIgnoreCase("no")) {
-                        System.out.println("\t\tOkay, please choose the search attribute again.");
+                        System.out.println("Okay, please choose the search attribute again.");
                     } else {
-                        System.out.println("\t\tInvalid confirmation. Please enter 'yes' or 'no'.");
-                        System.out.println("\t\tPlease choose the search attribute again.");
+                        System.out.println("Invalid confirmation. Please enter 'yes' or 'no'.");
+                        System.out.println("Please choose the search attribute again.");
                     }
                 }
             } else {
@@ -277,10 +287,10 @@ public class StaffManagement {
         switch (search) {
             case 1:
                 while (true) {
-                    System.out.print("\t\tEnter the exact staff ID: ");
+                    System.out.print("Enter the exact staff ID: ");
                     String id = sc.nextLine().trim();
                     if (id.isEmpty()) {
-                        System.out.println("\t\tStaff ID cannot be empty. Please try again.");
+                        System.out.println("Staff ID cannot be empty. Please try again.");
                         continue;
                     }
                     Staff byId = searchStaffByAttributes(staffs, search, id);
@@ -288,8 +298,8 @@ public class StaffManagement {
                         displayStaffDetails(byId);
                         break;
                     } else {
-                        System.out.println("\n\t\tStaff with ID '" + id + "' not found.");
-                        System.out.print("\t\tSearch again by Staff ID? (yes/no): ");
+                        System.out.println("\nStaff with ID '" + id + "' not found.");
+                        System.out.print("Search again by Staff ID? (yes/no): ");
                         if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                             break;
                         }
@@ -299,10 +309,10 @@ public class StaffManagement {
 
             case 2:
                 while (true) {
-                    System.out.print("\t\tEnter the Staff Name: ");
+                    System.out.print("Enter the Staff Name: ");
                     String name = sc.nextLine().trim();
                     if (name.isEmpty()) {
-                        System.out.println("\t\tStaff name cannot be empty. Please try again.");
+                        System.out.println("Staff name cannot be empty. Please try again.");
                         continue;
                     }
                     Staff byName = searchStaffByAttributes(staffs, search, name);
@@ -310,8 +320,8 @@ public class StaffManagement {
                         displayStaffDetails(byName);
                         break;
                     } else {
-                        System.out.println("\n\t\tNo staff with name '" + name + "'.");
-                        System.out.print("\t\tSearch again by Staff name? (yes/no): ");
+                        System.out.println("\nNo staff with name '" + name + "'.");
+                        System.out.print("Search again by Staff name? (yes/no): ");
                         if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                             break;
                         }
@@ -321,10 +331,10 @@ public class StaffManagement {
 
             case 3:
             while (true) {
-                System.out.print("\t\tEnter the Staff Phone Number: ");
+                System.out.print("Enter the Staff Phone Number: ");
                 String phoneNo = sc.nextLine().trim();
                 if (phoneNo.isEmpty()) {
-                    System.out.println("\t\tStaff Phone Number cannot be empty. Please try again.");
+                    System.out.println("Staff Phone Number cannot be empty. Please try again.");
                     continue;
                 }
                 if (phoneNo.length() == 10 && phoneNo.matches("\\d+")) {
@@ -332,45 +342,45 @@ public class StaffManagement {
                     if (byPhone != null) {
                         break;
                     } else {
-                        System.out.println("\n\t\tStaff with phone number'" + phoneNo + "' not found.");
-                        System.out.print("\t\tSearch again by staff phone number? (yes/no): ");
+                        System.out.println("\nStaff with phone number'" + phoneNo + "' not found.");
+                        System.out.print("Search again by staff phone number? (yes/no): ");
                         if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                             break;
                         }
                     }
                     break;
                 } else {
-                    System.out.println("\n\t\t[Invalid phone number format. Please enter exactly 10 digits]\n");
+                    System.out.println("\n[Invalid phone number format. Please enter exactly 10 digits]\n");
                 }
             }
             break;
 
             case 4:
             while (true) {
-                System.out.print("\t\tEnter the Staff Gender (e.g., M or F): ");
+                System.out.print("Enter the Staff Gender (e.g., M or F): ");
                 String gender = sc.nextLine().trim();
                 if (gender.isEmpty()) {
-                    System.out.println("\t\tStaff gender cannot be empty. Please try again.");
+                    System.out.println("Staff gender cannot be empty. Please try again.");
                     continue;
                 }
         
                 List<Staff> foundStaff = findAllStaffByGender(staffs, gender);
         
                 if (foundStaff.isEmpty()) {
-                    System.out.println("\n\t\tNo staff found with gender '" + gender + "'.");
+                    System.out.println("\nNo staff found with gender '" + gender + "'.");
                 } else if (foundStaff.size() == 1) {
-                    System.out.println("\n\t\tFound one staff member:");
+                    System.out.println("\nFound one staff member:");
                     displayStaffDetails(foundStaff.get(0));
                     break;
                 } else {
-                    System.out.println("\n\t\tMultiple staff members found with gender '" + gender + "'. Please select one by Staff ID:");
+                    System.out.println("\nMultiple staff members found with gender '" + gender + "'. Please select one by Staff ID:");
                     for (int i = 0; i < foundStaff.size(); i++) {
-                        System.out.println("\t\t[" + (i + 1) + "] " + foundStaff.get(i).getId() + " - " + foundStaff.get(i).getName());
+                        System.out.println("[" + (i + 1) + "] " + foundStaff.get(i).getId() + " - " + foundStaff.get(i).getName());
                     }
         
                     Staff selectedStaff = null;
                     while (selectedStaff == null) {
-                        System.out.print("\t\tEnter the Staff ID to view details: ");
+                        System.out.print("Enter the Staff ID to view details: ");
                         String selectedId = sc.nextLine().trim();
                         for (Staff staff : foundStaff) {
                             if (staff.getId().equalsIgnoreCase(selectedId)) {
@@ -379,16 +389,16 @@ public class StaffManagement {
                             }
                         }
                         if (selectedStaff == null) {
-                            System.out.println("\t\tInvalid Staff ID from the list. Please try again.");
+                            System.out.println("Invalid Staff ID from the list. Please try again.");
                         }
                     }
-                    System.out.println("\n\t\tShowing details for selected staff:");
+                    System.out.println("\nShowing details for selected staff:");
                     displayStaffDetails(selectedStaff);
                     break;
                 }
         
                 if (foundStaff.isEmpty()) {
-                     System.out.print("\t\tSearch again by Staff gender? (yes/no): ");
+                     System.out.print("Search again by Staff gender? (yes/no): ");
                      if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                          break;
                      }
@@ -400,10 +410,10 @@ public class StaffManagement {
 
             case 5:
             while (true) {
-                System.out.print("\t\tEnter the Staff IC Number: ");
+                System.out.print("Enter the Staff IC Number: ");
                 String icNo = sc.nextLine().trim();
                 if (icNo.isEmpty()) {
-                    System.out.println("\t\tStaff IC number cannot be empty. Please try again.");
+                    System.out.println("Staff IC number cannot be empty. Please try again.");
                     continue;
                 }
                 Staff byIc = searchStaffByAttributes(staffs, search, icNo);
@@ -411,8 +421,8 @@ public class StaffManagement {
                     displayStaffDetails(byIc);
                     break;
                 } else {
-                    System.out.println("\n\t\tNo staff with ic number '" + icNo + "'.");
-                    System.out.print("\t\tSearch again by Staff ic number? (yes/no): ");
+                    System.out.println("\nNo staff with ic number '" + icNo + "'.");
+                    System.out.print("Search again by Staff ic number? (yes/no): ");
                     if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                         break;
                     }
@@ -422,10 +432,10 @@ public class StaffManagement {
 
             case 6:
             while (true) {
-                System.out.print("\t\tEnter the Staff salary: RM ");
+                System.out.print("Enter the Staff salary: RM ");
                 String salary = sc.nextLine().trim();
                 if (salary.isEmpty()) {
-                    System.out.println("\t\tStaff salary cannot be empty. Please try again.");
+                    System.out.println("Staff salary cannot be empty. Please try again.");
                     continue;
                 }
                 Staff bySalary = searchStaffByAttributes(staffs, search, salary);
@@ -433,8 +443,8 @@ public class StaffManagement {
                     displayStaffDetails(bySalary);
                     break;
                 } else {
-                    System.out.println("\n\t\tNo staff with salary RM '" + salary + "'.");
-                    System.out.print("\t\tSearch again by Staff salary? (yes/no): ");
+                    System.out.println("\nNo staff with salary RM '" + salary + "'.");
+                    System.out.print("Search again by Staff salary? (yes/no): ");
                     if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                         break;
                     }
@@ -443,17 +453,17 @@ public class StaffManagement {
             break;
 
             default:
-                System.out.println("\n\t\tUnexpected error in search type selection.");
+                System.out.println("\nUnexpected error in search type selection.");
                 break;
         }
 
-        System.out.println("\n\t\t------------------------------------------------------------------");
+        System.out.println("\n------------------------------------------------------------------");
         if (search != 8) {
-            System.out.println("\t\tSearch finished. What action would you like to perform next?");
+            System.out.println("Search finished. What action would you like to perform next?");
             int choice = 0;
             while (true) {
-                System.out.println("\n\t\t[1] Edit Room\n\t\t[2] Delete Room\n\t\t[3] Return to Main Menu");
-                System.out.print("\t\tEnter your choice (1-3): ");
+                System.out.println("\n[1] Edit Room\n[2] Delete Room\n[3] Return to Main Menu");
+                System.out.print("Enter your choice (1-3): ");
                 if (sc.hasNextInt()) {
                     choice = sc.nextInt();
                     sc.nextLine();
@@ -479,11 +489,11 @@ public class StaffManagement {
                     mainPage();
                     break;
                 default:
-                    System.out.println("\t\tInvalid action choice.");
+                    System.out.println("Invalid action choice.");
                     break;
             }
 
-            System.out.println("\n\t\tPress [ENTER] to continue...");
+            System.out.println("\nPress [ENTER] to continue...");
             sc.nextLine();
             mainPage();
         }
@@ -500,14 +510,14 @@ public class StaffManagement {
 
     public static void editStaff(ArrayList<Staff> staffs) {
         clear();
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\t|\t\t\tEDIT STAFF SYSTEM\t\t\t |");
-        System.out.println("\t\t==================================================================");
+        System.out.println("\n=================================================================");
+        System.out.println("||                      EDIT STAFF SYSTEM                      ||");
+        System.out.println("=================================================================");
         Scanner sc = new Scanner(System.in);
         boolean searchAgain = true;
     
         while (searchAgain) {
-            System.out.print("\n\t\tEnter Staff ID or Name to edit (or type 'exit' to return): ");
+            System.out.print("\nEnter Staff ID or Name to edit (or type 'exit' to return): ");
             String input = sc.nextLine().trim();
     
             if (input.equalsIgnoreCase("exit")) {
@@ -515,7 +525,7 @@ public class StaffManagement {
                 break;
             }
             if (input.isEmpty()) {
-                 System.out.println("\t\tInput cannot be empty.");
+                 System.out.println("Input cannot be empty.");
                  continue;
             }
     
@@ -532,28 +542,28 @@ public class StaffManagement {
             }
     
             if (staffToEdit != null) {
-                System.out.println("\n\t\tStaff found by ID:");
+                System.out.println("\nStaff found by ID:");
                 displayStaffDetails(staffToEdit);
                 editStaffDetails(staffToEdit); 
     
             } else if (nameMatches.isEmpty()) {
-                System.out.println("\n\t\tNo staff found with ID or Name '" + input + "'.");
+                System.out.println("\nNo staff found with ID or Name '" + input + "'.");
     
             } else if (nameMatches.size() == 1) {
                 staffToEdit = nameMatches.get(0);
-                System.out.println("\n\t\tStaff found by Name:");
+                System.out.println("\nStaff found by Name:");
                 displayStaffDetails(staffToEdit);
                 editStaffDetails(staffToEdit); 
     
             } else {
-                System.out.println("\n\t\tMultiple staff found with the name '" + input + "'. Please specify by Staff ID:");
+                System.out.println("\nMultiple staff found with the name '" + input + "'. Please specify by Staff ID:");
                 for (int i = 0; i < nameMatches.size(); i++) {
-                    System.out.println("\t\t[" + (i + 1) + "] " + nameMatches.get(i).getId() + " - " + nameMatches.get(i).getName());
+                    System.out.println("[" + (i + 1) + "] " + nameMatches.get(i).getId() + " - " + nameMatches.get(i).getName());
                 }
     
                 Staff selectedStaff = null;
                 while (selectedStaff == null) {
-                    System.out.print("\t\tEnter the Staff ID to edit: ");
+                    System.out.print("Enter the Staff ID to edit: ");
                     String selectedId = sc.nextLine().trim();
                     for (Staff staff : nameMatches) {
                         if (staff.getId().equalsIgnoreCase(selectedId)) {
@@ -562,24 +572,24 @@ public class StaffManagement {
                         }
                     }
                     if (selectedStaff == null) {
-                        System.out.println("\t\tInvalid Staff ID from the list. Please try again.");
+                        System.out.println("Invalid Staff ID from the list. Please try again.");
                     }
                 }
                 staffToEdit = selectedStaff;
-                System.out.println("\n\t\tSelected staff for editing:");
+                System.out.println("\nSelected staff for editing:");
                 displayStaffDetails(staffToEdit);
                 editStaffDetails(staffToEdit); 
             }
     
             if (searchAgain) {
-                 System.out.print("\n\t\tSearch for another staff member to edit? (yes/no): ");
+                 System.out.print("\nSearch for another staff member to edit? (yes/no): ");
                  if (!sc.nextLine().trim().equalsIgnoreCase("yes")) {
                       searchAgain = false;
                  }
             }
         }
     
-        System.out.println("\n\t\tReturning to main page...");
+        System.out.println("\nReturning to main page...");
         mainPage();
     }
 
@@ -588,23 +598,23 @@ public class StaffManagement {
         boolean continueEditing = true;
         while (continueEditing) {
 
-            System.out.println("\n\t\tWhat do you want to edit? (Enter numbers separated by commas, e.g., 1,5)");
-            System.out.println("\t\t[1] Name");
-            System.out.println("\t\t[2] Phone Number");
-            System.out.println("\t\t[3] Gender");
-            System.out.println("\t\t[4] IC Number");
-            System.out.println("\t\t[5] Salary");
-            System.out.println("\t\t[6] Finish Editing This Staff");
-            System.out.print("\t\tEnter your choice(s): ");
+            System.out.println("\nWhat do you want to edit? (Enter numbers separated by commas, e.g., 1,5)");
+            System.out.println("[1] Name");
+            System.out.println("[2] Phone Number");
+            System.out.println("[3] Gender");
+            System.out.println("[4] IC Number");
+            System.out.println("[5] Salary");
+            System.out.println("[6] Finish Editing This Staff");
+            System.out.print("Enter your choice(s): ");
             String editChoicesInput = sc.nextLine().trim();
 
             if (editChoicesInput.isEmpty()) {
-                System.out.println("\n\t\tNo choice entered. Please select fields to edit or choose 6 to finish.");
+                System.out.println("\nNo choice entered. Please select fields to edit or choose 6 to finish.");
                 continue;
             }
 
             if (editChoicesInput.contains("6")) {
-                System.out.println("\n\t\tFinished editing Staff ID: " + staff.getId());
+                System.out.println("\nFinished editing Staff ID: " + staff.getId());
                 continueEditing = false;
                 break;
             }
@@ -616,75 +626,75 @@ public class StaffManagement {
                 String trimmedOption = option.trim();
                 switch (trimmedOption) {
                     case "1":
-                        System.out.print("\n\t\tEnter the new Name: ");
+                        System.out.print("\nEnter the new Name: ");
                         String newName = sc.nextLine().trim();
                         if (!newName.isEmpty()) {
                             staff.setName(newName);
                             updateStaffFile(staff.getId(), 1, newName);
-                            System.out.println("\t\t-> Name updated successfully!");
+                            System.out.println("-> Name updated successfully!");
                             changesMadeThisRound = true;
                         } else {
-                            System.out.println("\n\t\tName cannot be empty. Update skipped.");
+                            System.out.println("\nName cannot be empty. Update skipped.");
                         }
                         break;
 
                     case "2":
-                        System.out.print("\n\t\tEnter the new Phone Number: ");
+                        System.out.print("\nEnter the new Phone Number: ");
                         String newPhone = sc.nextLine().trim();
                         if (!newPhone.isEmpty()) {
                             staff.setPhoneNo(newPhone);
                             updateStaffFile(staff.getId(), 2, newPhone);
-                            System.out.println("\t\t-> Phone Number updated successfully!");
+                            System.out.println("-> Phone Number updated successfully!");
                             changesMadeThisRound = true;
                         } else {
-                            System.out.println("\n\t\tPhone Number cannot be empty. Update skipped.");
+                            System.out.println("\nPhone Number cannot be empty. Update skipped.");
                         }
                         break;
 
                     case "3":
                         char newGender = ' ';
                         while (newGender == ' ') {
-                            System.out.print("\n\t\tEnter the new Gender (M/F): ");
+                            System.out.print("\nEnter the new Gender (M/F): ");
                             String genderInput = sc.nextLine().trim().toUpperCase();
                             if (genderInput.length() == 1 && (genderInput.charAt(0) == 'M' || genderInput.charAt(0) == 'F')) {
                                 newGender = genderInput.charAt(0);
                                 staff.setGender(newGender);
                                 updateStaffFile(staff.getId(), 3, String.valueOf(newGender));
-                                System.out.println("\t\t-> Gender updated successfully!");
+                                System.out.println("-> Gender updated successfully!");
                                 changesMadeThisRound = true;
                             } else {
-                                System.out.println("\n\t\tInvalid input. Please enter 'M' or 'F'.");
+                                System.out.println("\nInvalid input. Please enter 'M' or 'F'.");
                             }
                         }
                         break;
 
                     case "4":
-                        System.out.print("\n\t\tEnter the new IC Number: ");
+                        System.out.print("\nEnter the new IC Number: ");
                         String newIc = sc.nextLine().trim();
                         if (!newIc.isEmpty()) {
                             staff.setIcNo(newIc);
                             updateStaffFile(staff.getId(), 4, newIc);
-                            System.out.println("\t\t-> IC Number updated successfully!");
+                            System.out.println("-> IC Number updated successfully!");
                             changesMadeThisRound = true;
                         } else {
-                            System.out.println("\t\tIC Number cannot be empty. Update skipped.");
+                            System.out.println("IC Number cannot be empty. Update skipped.");
                         }
                         break;
 
                     case "5":
                         double newSalary = -1.0;
                         while (newSalary < 0) {
-                            System.out.print("\n\t\tEnter the new Salary (e.g., 2500.50): RM ");
+                            System.out.print("\nEnter the new Salary (e.g., 2500.50): RM ");
                             try {
                                 newSalary = sc.nextDouble();
                                 sc.nextLine();
                                 if (newSalary < 0) {
-                                    System.out.println("\n\t\tSalary cannot be negative.");
+                                    System.out.println("\nSalary cannot be negative.");
                                     newSalary = -1.0;
                                 } else {
                                     staff.setSalary(newSalary);
                                     updateStaffFile(staff.getId(), 5, String.valueOf(newSalary));
-                                    System.out.println("\t\t-> Salary updated successfully!");
+                                    System.out.println("-> Salary updated successfully!");
                                     changesMadeThisRound = true;
                                 }
                             } catch (InputMismatchException e) {
@@ -700,7 +710,7 @@ public class StaffManagement {
                         break;
 
                     default:
-                        System.out.println("\n\t\tInvalid choice '" + trimmedOption + "'. Skipping.");
+                        System.out.println("\nInvalid choice '" + trimmedOption + "'. Skipping.");
                         break;
                 }
 
@@ -711,7 +721,7 @@ public class StaffManagement {
             }
 
             if (changesMadeThisRound) {
-                System.out.println("\n\t\tCurrent details for Staff ID: " + staff.getId());
+                System.out.println("\nCurrent details for Staff ID: " + staff.getId());
                 displayStaffDetails(staff);
             }
 
@@ -719,11 +729,11 @@ public class StaffManagement {
                 break;
             }
 
-            System.out.print("\n\t\tEdit more details for this staff member? (yes/no): ");
+            System.out.print("\nEdit more details for this staff member? (yes/no): ");
             String more = sc.nextLine().trim();
             if (!more.equalsIgnoreCase("yes")) {
                 continueEditing = false;
-                System.out.println("\n\t\tFinished editing Staff ID: " + staff.getId());
+                System.out.println("\nFinished editing Staff ID: " + staff.getId());
             }
 
         }
@@ -732,17 +742,17 @@ public class StaffManagement {
     public static void deleteStaff(ArrayList<Staff> currentStaffs) {
         clear();
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\t|\t\t\tDELETE STAFF SYSTEM\t\t\t |");
-        System.out.println("\t\t==================================================================");
+        System.out.println("\n==================================================================");
+        System.out.println("||                      DELETE STAFF SYSTEM                     ||");
+        System.out.println("==================================================================");
         String filename = "staff.txt";
 
         if (currentStaffs == null) {
-            System.err.println("\n\t\tError: Cannot delete from a null list.");
+            System.err.println("\nError: Cannot delete from a null list.");
             return;
         }
 
-        System.out.print("\n\t\tPlease enter the staff ID that you want to delete: ");
+        System.out.print("\nPlease enter the staff ID that you want to delete: ");
         String idToDelete = sc.nextLine().trim();
 
         Staff staffToDel = null;
@@ -758,27 +768,27 @@ public class StaffManagement {
         }
 
         if (staffToDel != null) {
-            System.out.println("\n\t\tStaff Found:");
+            System.out.println("\nStaff Found:");
             displayStaffDetails(staffToDel);
             while (true) {
-                System.out.print("\n\t\tConfirm to delete this staff? (yes/no): ");
+                System.out.print("\nConfirm to delete this staff? (yes/no): ");
                 String deleteConfirm = sc.nextLine().trim();
                 if (deleteConfirm.equalsIgnoreCase("yes")) {
                     currentStaffs.remove(staffIndex);
-                    System.out.println("\n\t\tStaff with ID '" + idToDelete + "'("+ staffToDel.getName() +") has been deleted.");
+                    System.out.println("\nStaff with ID '" + idToDelete + "'("+ staffToDel.getName() +") has been deleted.");
                     writeStaffFile(currentStaffs, filename);
                     break;
                 } else if (deleteConfirm.equalsIgnoreCase("no")) {
-                    System.out.println("\n\t\tDeletion cancelled for Staff ID '" + idToDelete + "'("+ staffToDel.getName() + "').");
+                    System.out.println("\nDeletion cancelled for Staff ID '" + idToDelete + "'("+ staffToDel.getName() + "').");
                     break;
                 } else {
                     errorMessageWord();
                 }
             }
         } else {
-            System.out.println("\n\t\tStaff with ID '"+ idToDelete + "'("+ staffToDel.getName() + ")' not found in the list. No changes made.");
+            System.out.println("\nStaff with ID '"+ idToDelete + "'("+ staffToDel.getName() + ")' not found in the list. No changes made.");
         }
-        System.out.println("\n\t\tPress [ENTER] to continue...");
+        System.out.println("\nPress [ENTER] to continue...");
         sc.nextLine();
     }
 
@@ -818,22 +828,22 @@ public class StaffManagement {
             }
         }
         if (matchedStaff == null) {
-            System.out.println("\n\t\tNo matching staff found.");
+            System.out.println("\nNo matching staff found.");
         } else {
-            System.out.println("\n\t\tMatched staff(s) found.");
+            System.out.println("\nMatched staff(s) found.");
         }
         return matchedStaff;
     }
 
     public static void displayStaffDetails(Staff staff) {
-        System.out.println("\n\t\t==================================================================");
-        System.out.println("\t\tStaff ID: " + staff.getId());
-        System.out.println("\t\tName: " + staff.getName());
-        System.out.println("\t\tPhone Number: " + staff.getPhoneNo());
-        System.out.println("\t\tGender: " + staff.getGender());
-        System.out.println("\t\tIC Number: " + staff.getIcNo());
-        System.out.printf("\t\tSalary: RM %.2f ", staff.getSalary());
-        System.out.println("\n\t\t==================================================================");
+        System.out.println("\n==================================================================");
+        System.out.println("Staff ID: " + staff.getId());
+        System.out.println("Name: " + staff.getName());
+        System.out.println("Phone Number: " + staff.getPhoneNo());
+        System.out.println("Gender: " + staff.getGender());
+        System.out.println("IC Number: " + staff.getIcNo());
+        System.out.printf("Salary: RM %.2f ", staff.getSalary());
+        System.out.println("\n==================================================================");
     }
 
     public static ArrayList<Staff> readStaffFile() {
@@ -979,23 +989,23 @@ public class StaffManagement {
     }
 
     public static void errorMessage() {
-        System.out.print("\n\t\t===================================\n");
-        System.out.println("\n\t\tError. Invalid input. Please try again.");
+        System.out.print("\n===================================\n");
+        System.out.println("\nError. Invalid input. Please try again.");
     }
 
     public static void errorMessageNumber() {
-        System.out.print("\n\t\t===================================\n");
-        System.out.println("\n\t\tError. Invalid input. Please input the correct number.");
+        System.out.print("\n===================================\n");
+        System.out.println("\nError. Invalid input. Please input the correct number.");
     }
 
     public static void errorMessageWord() {
-        System.out.print("\n\t\t===================================\n");
-        System.out.println("\n\t\tError. Invalid input. Please input the correct word.");
+        System.out.print("\n===================================\n");
+        System.out.println("\nError. Invalid input. Please input the correct word.");
     }
 
     public static void errorMessageBlank() {
-        System.out.print("\n\t\t===================================\n");
-        System.out.println("\n\t\tError. Input cannot be empty. Please try again");
+        System.out.print("\n===================================\n");
+        System.out.println("\nError. Input cannot be empty. Please try again");
     }
 
     public static void clear() {
