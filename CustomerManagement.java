@@ -9,42 +9,41 @@ public class CustomerManagement {
     public static void mainPage() {
         customers = readCustomerFile();
         Scanner sc = new Scanner(System.in);
-        int action = 0;
+        int action = -1;
 
-        while (action != 5) {
+        while (action != 0) {
             while (true) {
                 clear();
-                System.out.println("\n\t\t=====================================================");
+                System.out.println("\n=====================================================");
                 System.out.println("\t\t|\t   HOTEL CUSTOMER MANAGEMENT SYSTEM\t    |");
                 System.out.println("\t\t=====================================================");
-                System.out.println("\n\t\tPlease select an option:\n\t\t[1] Add New Customer\n\t\t[2] Edit Customer\n\t\t[3] Delete Customer\n\t\t[4] Search Customer\n\t\t[5] Exit");
+                System.out.println("\n\t\tPlease select an option:\n\t\t[1] Add New Customer\n\t\t[2] Edit Customer\n\t\t[3] Delete Customer\n\t\t[4] Search Customer\n\t\t[0] Exit");
                 System.out.print("\t\tPlease choose your action (1-5): ");
 
                 if (sc.hasNextInt()) {
                     action = sc.nextInt();
                     sc.nextLine();
+                    switch (action) {
+                        case 1:
+                            addNewCustomer(customers);
+                            break;
+                        case 2:
+                            editCustomer(customers);
+                            break;
+                        case 3:
+                            deleteCustomer(customers);
+                            break;
+                        case 4:
+                            showCustomer();
+                            break;
+                        case 0:
+                            clear();
+                            return;
+                    }
 
                     if (action < 1 || action > 5) {
                         errorMessageNumber();
-                    } else {
-                        switch (action) {
-                            case 1:
-                                addNewCustomer(customers);
-                                break;
-                            case 2:
-                                editCustomer(customers);
-                                break;
-                            case 3:
-                                deleteCustomer(customers);
-                                break;
-                            case 4:
-                                showCustomer();
-                                break;
-                            case 5:
-                                break;
-                        }
-                        break;
-                    }
+                    } 
                 } else {
                     errorMessageNumber();
                     sc.next();
@@ -801,4 +800,3 @@ public class CustomerManagement {
         System.out.println("\033[H\033[2J");
     }
 }
-
