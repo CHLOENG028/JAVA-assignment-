@@ -1,62 +1,77 @@
-public class Staff extends Person {
+package CustomerManagement;
+
+public class Staff{
+    private String id;
+    private String name;
+    private String phoneNo;
     private char gender;
     private String icNo;
     private double salary;
-    private String role; 
+    
+    public Staff(String id, String name, String phoneNo, char gender, String icNo, double salary){
+        this.id = id;
+        this.name = name;
+        this.phoneNo = phoneNo;
+        this.gender = gender;
+        this.icNo = icNo;
+        this.salary = salary;
+    }
 
     public Staff() {
-        super("","","");
-        this.gender = 'U'; 
+        this.id = "";
+        this.name = "";
+        this.phoneNo = "";
+        this.gender = ' ';
         this.icNo = "";
         this.salary = 0.0;
-        this.role = "Unknown";
     }
 
-    public Staff(String role,String id, String name, String phoneNo, char gender, String icNo, double salary ) {
-        super(id,name,phoneNo);
-        this.role = role;
-        this.gender = gender;
-        this.icNo = icNo;
-        this.salary = salary;
+    public String getId(){
+        return id;
     }
 
-    public Staff(String id, String name, String phoneNo, char gender, String icNo, double salary ) {
-        super(id,name,phoneNo);
-        this.gender = gender;
-        this.icNo = icNo;
-        this.salary = salary;
-    }
-    public String getRole() {
-        return role;
+    public void setId(String id){
+        this.id = id;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public String getName(){
+        return name;
     }
 
-    public char getGender() {
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getPhoneNo(){
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo){
+        this.phoneNo = phoneNo;
+    }
+
+    public char getGender(){
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(char gender){
         this.gender = gender;
     }
 
-    public String getIcNo() {
+    public String getIcNo(){
         return icNo;
     }
 
-    public void setIcNo(String icNo) {
+    public void setIcNo(String icNo){
         this.icNo = icNo;
     }
 
-    public double getSalary() {
+
+    public double getSalary(){
         return salary;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(double salary){
         this.salary = salary;
     }
-
-
 }
