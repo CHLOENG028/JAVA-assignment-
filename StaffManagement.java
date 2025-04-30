@@ -9,11 +9,10 @@ public class StaffManagement {
     public static void mainPage() {
         staffs = readStaffFile();
         Scanner sc = new Scanner(System.in);
-        int action = 0;
+        int action = -1;
 
-        while (action != 5) {
+        while (action != 0) {
             while (true){
-            clear();
             System.out.println("\n=================================================================");
             System.out.println("||               HOTEL STAFF MANAGEMENT SYSTEM                 ||");
             System.out.println("=================================================================");
@@ -29,32 +28,35 @@ public class StaffManagement {
                 action = sc.nextInt();
                 sc.nextLine();
 
+                switch(action) {
+                    case 1:
+                        addNewStaff(staffs);
+                        break;
+                    case 2:
+                        editStaff(staffs);
+                        break;
+                    case 3:
+                        deleteStaff(staffs);
+                        break;
+                    case 4:
+                        showStaff();
+                        break;
+                    case 0:
+                        clear();
+                        return;
+                }
+
                 if (action < 0 || action > 5) {
                     errorMessageNumber();
-                } else {
-                    break;
-                }
+                    System.out.println("Press [ENTER] to continue..");
+                    sc.nextLine();
+                } 
             } else {
                 errorMessageNumber();
                 sc.next();
             }
         }
-        switch(action) {
-            case 1:
-                addNewStaff(staffs);
-                break;
-            case 2:
-                editStaff(staffs);
-                break;
-            case 3:
-                deleteStaff(staffs);
-                break;
-            case 4:
-                showStaff();
-                break;
-            case 0:
-                break;
-        }
+
     }
 }
 
