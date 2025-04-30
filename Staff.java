@@ -6,7 +6,11 @@ public class Staff extends Person{
         this.salary = salary;
     }
 
-    public Staff(){}
+    public Staff() {
+        super("", "", "", ' ', "");
+        this.salary = 0.0;
+    }
+    
 
     public double getSalary(){
         return salary;
