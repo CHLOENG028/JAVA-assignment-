@@ -17,9 +17,9 @@ public class ManageRoom {
     public static void mainPage() {
         rooms = readRoomFile();
         Scanner sc = new Scanner(System.in);
-        int action = 0;
+        int action = -1;
 
-        while (action != 5) {
+        while (action != 0) {
             while (true) {
                 clear();
                 System.out.println("\n============================================================");
@@ -36,33 +36,31 @@ public class ManageRoom {
                 if (sc.hasNextInt()) {
                     action = sc.nextInt();
                     sc.nextLine();
-
+                    switch (action) {
+                        case 1:
+                            addNewRoom(rooms);
+                            break;
+                        case 2:
+                            editRoom(rooms);
+                            break;
+                        case 3:
+                            deleteRoom(rooms);
+                            break;
+                        case 4:
+                            showRoom(rooms);
+                            break;
+                        case 0:
+                            return;
+                    }
                     if (action < 1 || action > 5) {
                         errorMessageNumber();
-                    } else {
-                        break;
-                    }
+                    } 
                 } else {
                     errorMessageNumber();
                     sc.next();
                 }
             }
-            switch (action) {
-                case 1:
-                    addNewRoom(rooms);
-                    break;
-                case 2:
-                    editRoom(rooms);
-                    break;
-                case 3:
-                    deleteRoom(rooms);
-                    break;
-                case 4:
-                    showRoom(rooms);
-                    break;
-                case 0:
-                    System.exit(0);
-            }
+
         }
     }
 
