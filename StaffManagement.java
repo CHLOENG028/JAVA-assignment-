@@ -1,5 +1,3 @@
-package CustomerManagement;
-
 import java.io.*;
 import java.util.*;
 
